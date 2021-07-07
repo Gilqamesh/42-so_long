@@ -13,9 +13,6 @@ CFLAGS+= -DSTRINGPUTX11
 
 all: $(NOM)
 
-%.o: %.c
-	$(CC) -Wall -Wextra -Werror -Imlx -c $< -o $@
-
 $(NOM):	$(OBJ)
 	ar -r $(NOM) $(OBJ)
 	ranlib $(NOM)
