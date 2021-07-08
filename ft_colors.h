@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 15:35:20 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/07 17:05:23 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/08 19:33:36 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,31 @@ extern t_node	mlx_yellow;
 extern t_node	mlx_white;
 extern t_node	mlx_black;
 
+typedef struct	s_rgba
+{
+	unsigned char	alpha;
+	unsigned char	red;
+	unsigned char	green;
+	unsigned char	blue;
+}				t_rgba;
+
+typedef struct	s_hsl
+{
+	int		hue;
+	char	saturation;
+	char	lightness;	
+}				t_hsl;
+
 void	init_rainbow(void);
+t_rgba	hex_to_rgba(int hex);
+int		rgba_to_hex(t_rgba rgba);
+t_rgba	make_rgba(int red, int green, int blue, int alpha);
+t_hsl	make_hsl(int hex);
+t_hsl	rgba_to_hsl(t_rgba rgba);
+t_rgba	hsl_to_rgba(t_hsl hsl);
+int		shade_add(double shade, int color);
+int		get_red_from_hex(int hex);
+int		get_green_from_hex(int hex);
+int		get_blue_from_hex(int hex);
 
 #endif

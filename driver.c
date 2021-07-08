@@ -6,11 +6,12 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 16:16:58 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/07 19:47:50 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/08 19:32:12 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
+#include <stdio.h>
 #include "mlx/mlx.h"
 #include "ft_utils.h"
 #include "ft_basic_shapes.h"
@@ -39,8 +40,23 @@ int main(void)
 	// line_put_parametric(&img, 10, 10, 100, 10, mlx_red.value, 1000);
 	// square_put(&img, 800, 800, 1000, 1000, mlx_cyan.value, 1000, line_put_parametric);
 	// triangle_put(&img, (t_point){80, 200}, (t_point){90, 400}, (t_point){200, 300}, mlx_green.value, 200, line_put_parametric);
-	line_put_gradient(&img, (t_point){50, 50}, (t_point){1200, 500}, mlx_blue.value, mlx_red.value, 1000);
-	
+	// line_put_gradient(&img, (t_point){50, 50}, (t_point){1200, 500}, mlx_blue.value, mlx_red.value, 1000);
+	// line_put_parametric(&img, 50, 50, 1000, 1000, shade_add(0, mlx_red.value), 1000);
+	// line_put_parametric(&img, 60, 50, 1010, 1000, shade_add(0.2, mlx_red.value), 1000);
+	// line_put_parametric(&img, 70, 50, 1020, 1000, shade_add(0.4, mlx_red.value), 1000);
+	// line_put_parametric(&img, 80, 50, 1030, 1000, shade_add(0.6, mlx_red.value), 1000);
+	// line_put_parametric(&img, 90, 50, 1040, 1000, shade_add(0.8, mlx_red.value), 1000);
+	// line_put_parametric(&img, 100, 50, 1050, 1000, shade_add(1, mlx_red.value), 1000);
+	// printf("%d\n", mlx_red.value);
+	// printf("%d\n", shade_add(0.5, mlx_red.value));
+	for (int i = 0; i < 1000; i++)
+	{
+		if (i < 500)
+			line_put_parametric(&img, 50 + i, 50, 600 + i, 1000, shade_add(0 + i / 600.0, mlx_red.value), 1000);
+		else
+			line_put_parametric(&img, 50 + i, 50, 600 + i, 1000, shade_add(0 + (1000 - i) / 600.0, mlx_red.value), 1000);
+	}
+
 	// pushes image to the window
 	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
 

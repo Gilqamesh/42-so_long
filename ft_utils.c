@@ -6,12 +6,14 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 15:39:04 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/07 19:41:05 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/08 19:33:45 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_utils.h"
 #include <limits.h>
+#include <stdio.h>
+#include "ft_utils.h"
+#include "ft_colors.h"
 
 void	my_mlx_pixel_put(t_data *data, double x, double y, int color)
 {
@@ -41,40 +43,55 @@ int		abs_int(int a)
 	return (-a);
 }
 
-t_rgba	hex_to_rgba(int hex)
-{
-	return ((t_rgba){(hex & 0xFF000000) >> 24, (hex & 0x00FF0000) >> 16,
-					(hex & 0x0000FF00) >> 8, hex & 0x000000FF});
-}
-
-int		rgba_to_hex(t_rgba rgba)
-{
-	return (rgba.alpha << 24 | rgba.red << 16 | rgba.green << 8 | rgba.blue);
-}
-
-int		get_red_from_hex(int hex)
-{
-	return ((hex & 0x00FF0000) >> 16);
-}
-
-int		get_green_from_hex(int hex)
-{
-	return ((hex & 0x0000FF00) >> 8);
-}
-
-int		get_blue_from_hex(int hex)
-{
-	return (hex & 0x000000FF);
-}
-
-t_rgba	make_rgba(int red, int green, int blue, int alpha)
-{
-	return ((t_rgba){alpha << 24, red << 16, green << 8, blue});
-}
-
 double	abs_double(double a)
 {
 	if (a > 0)
 		return (a);
 	return (-a);
+}
+
+double	max_of_3(double a, double b, double c)
+{
+	if (a > b)
+	{
+		if (a > c)
+			return (a);
+		else // b > c not possible, because a > b > c and c > a is a contradiction
+			return (c);
+	}
+	else // b > a
+	{
+		if (b > c)
+			return (b);
+		else // a > c not possible, because b > a > c and c > b is a contradiction
+			return (c);
+	}
+}
+
+double	min_of_3(double a, double b, double c)
+{
+	if (a > b)
+	{
+		if (a > c)
+		{
+			if (b > c)
+				return (c);
+			else
+				return (b); 
+		}
+		else
+			return (b);
+	}
+	else
+	{
+		if (b > c)
+		{
+			if (a > c)
+				return (c);
+			else
+				return (a);
+		}
+		else
+			return (a);
+	}
 }

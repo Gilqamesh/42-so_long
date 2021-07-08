@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 15:33:48 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/07 19:47:00 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/08 16:33:06 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,10 +112,9 @@ void	line_put_gradient(t_data *data, t_point A, t_point B, int color1, int color
 	cur_red = get_red_from_hex(color1);
 	cur_green = get_green_from_hex(color1);
 	cur_blue = get_blue_from_hex(color1);
-	red_inc = get_red_from_hex(color2) - get_red_from_hex(color1) / (double)iter_n;
-	green_inc = get_green_from_hex(color2) - get_green_from_hex(color1) / (double)iter_n;
-	blue_inc = get_blue_from_hex(color2) - get_blue_from_hex(color1) / (double)iter_n;
-	printf("%f %f %f\n", red_inc, green_inc, blue_inc);
+	red_inc = (get_red_from_hex(color2) - get_red_from_hex(color1)) / (double)iter_n;
+	green_inc = (get_green_from_hex(color2) - get_green_from_hex(color1)) / (double)iter_n;
+	blue_inc = (get_blue_from_hex(color2) - get_blue_from_hex(color1)) / (double)iter_n;
 	cur_rgba = hex_to_rgba(color1);
 	while (t <= 1)
 	{
@@ -123,7 +122,6 @@ void	line_put_gradient(t_data *data, t_point A, t_point B, int color1, int color
 		cur_red += red_inc;
 		cur_green += green_inc;
 		cur_blue += blue_inc;
-		printf("%f %f %f\n", cur_red, cur_green, cur_blue);
 		cur_rgba = make_rgba(round_to_nearest(cur_red), round_to_nearest(cur_green),
 					round_to_nearest(cur_blue), 0);
 		t += increment;
