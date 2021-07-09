@@ -6,10 +6,11 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 15:33:48 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/08 16:33:06 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/09 15:05:43 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
 #include "ft_basic_shapes.h"
@@ -42,7 +43,7 @@ void	circle_put_quick(t_data *data, int a, int b, int radius)
 }
 
 // uses the parametric equation of a circle, pixels are distributed evenly
-void	circle_put_parametric(t_data *data, int a, int b, int radius)
+void	circle_put_parametric(t_data *data, int a, int b, int radius, int color_hex)
 {
 	double	t;
 	t_node	*color;
@@ -52,15 +53,23 @@ void	circle_put_parametric(t_data *data, int a, int b, int radius)
 	// y = b + Rsin(t)
 	t = 2 * PI * 1000;
 	init_rainbow();
-	color = &mlx_red;
+	if (color_hex == -1)
+		color = &mlx_red;
+	else
+	{
+		color = malloc(sizeof(*color));
+		color->value = color_hex;
+	}
 	pixels = 0;
 	while (t >= 0)
 	{
-		my_mlx_pixel_put(data, a + radius * cos(t / 1000), b + radius * sin(t / 1000), color->value);
-		if (++pixels % 100 == 0)
+		my_mlx_pixel_put(data, a + radius * cos(t / 1000), b + radius * sin(t / 1000), color_hex == -1 ? color->value : color_hex);
+		if (color_hex == -1 && ++pixels % 100 == 0)
 			color = color->next;
 		t--;
-	}	
+	}
+	if (color_hex != -1)
+		free(color);
 }
 
 // uses parametric equation of line segment

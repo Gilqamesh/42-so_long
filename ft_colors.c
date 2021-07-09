@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 16:17:06 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/09 09:46:16 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/09 14:31:58 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ t_node	mlx_blue = {0x000000FF, "blue", 0};
 t_node	mlx_cyan = {0x0000FFFF, "cyan", 0};
 t_node	mlx_green = {0x0000FF00, "green", 0};
 t_node	mlx_yellow = {0x00FFFF00, "yellow", 0};
-t_node	mlx_white = {0x00000000, "white", 0};
-t_node	mlx_black = {0x00FFFFFF, "black", 0};
+t_node	mlx_white = {0x00FFFFFF, "white", 0};
+t_node	mlx_black = {0x00000000, "black", 0};
 
 void	init_rainbow(void)
 {

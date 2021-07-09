@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_hooks.h                                         :+:      :+:    :+:   */
+/*   ft_testers.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/09 10:01:50 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/09 15:02:24 by edavid           ###   ########.fr       */
+/*   Created: 2021/07/09 13:45:45 by edavid            #+#    #+#             */
+/*   Updated: 2021/07/09 14:51:09 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_HOOKS_H
-# define FT_HOOKS_H
+#ifndef FT_TESTERS_H
+# define FT_TESTERS_H
 
-typedef struct	s_vars
+# include "ft_hooks.h"
+# include "ft_utils.h"
+typedef struct	s_mystruct
 {
-	void	*mlx;
-	void	*win;
-}				t_vars;
+	t_vars	*vars;
+	t_data	*img;
+	int		*x;
+	int		*y;
+	int		*prev_x;
+	int		*prev_y;
+}				t_mystruct;
 
-# include "ft_testers.h"
-int	key_hook(int keycode, t_vars *vars);
-int mouse_hook(int button, int x, int y, t_vars *vars);
-int	resize_msg(void);
-int	move_circle(int keycode, t_mystruct *mystruct);
+int		shader(t_data *img);
+int		gradient_opposite(t_mystruct *mystruct);
+int		color_changer(t_mystruct *mystruct);
 
 #endif
