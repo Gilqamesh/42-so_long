@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 16:16:58 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/09 15:48:34 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/09 17:17:36 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,19 +53,39 @@ int main(void)
 	// mlx_hook(vars.win, 2, (1L<<2), move_circle, &mystruct);
 	
 	// reading image
-	void	*sprite_img;
+	t_data	sprite_img;
 	int		img_width;
 	int		img_height;
-	sprite_img = mlx_xpm_file_to_image(vars.mlx, "redhood.xpm", &img_width, &img_height);
-	if (!sprite_img)
+	sprite_img.img = mlx_xpm_file_to_image(vars.mlx, "redhood.xpm", &img_width, &img_height);
+	if (!sprite_img.img)
 	{
 		printf("Could not open image\n");
 		return (-1);
 	}
-	
+	sprite_img.addr = mlx_get_data_addr(sprite_img.img, &sprite_img.bits_per_pixel, &sprite_img.line_length, &sprite_img.endian);
+	// resize image
+	for (int i = 0; i < img_width; i++)
+	{
+		for (int j = 0; j < img_height; j++)
+		{
+			int	pos = j * sprite_img.line_length + i * (sprite_img.bits_per_pixel / 8);
+			int	pos_half = j / 2 * sprite_img.line_length + i / 2 * (sprite_img.bits_per_pixel / 8);
+			*(unsigned int *)(sprite_img.addr + pos_half) = *(unsigned int *)(sprite_img.addr + pos);
+		}
+	}
+	*(sprite_img.addr + 50) = '\0';
+
+
 	// pushes image to the window
 	mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
-	mlx_put_image_to_window(vars.mlx, vars.win, sprite_img, 0, 0);
+	mlx_put_image_to_window(vars.mlx, vars.win, sprite_img.img, 0, 0);
+	// sprite_img = mlx_xpm_file_to_image(vars.mlx, "cursor.xpm", &img_width, &img_height);
+	// if (!sprite_img)
+	// {
+	// 	printf("Could not open image\n");
+	// 	return (-1);
+	// }
+	// mlx_put_image_to_window(vars.mlx, vars.win, sprite_img, 0, 0);
 
 	// to initiate the window rendering, each hook that was registered prior to this will be called accordingly by order of registration
 	mlx_loop(vars.mlx);
