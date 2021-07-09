@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 15:35:20 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/08 19:33:36 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/09 09:42:16 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,6 @@ int		shade_add(double shade, int color);
 int		get_red_from_hex(int hex);
 int		get_green_from_hex(int hex);
 int		get_blue_from_hex(int hex);
+int		opposite_color_get(int hex);
 
 #endif

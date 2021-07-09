@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 16:17:06 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/08 19:33:49 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/09 09:46:16 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,4 +158,16 @@ int		get_green_from_hex(int hex)
 int		get_blue_from_hex(int hex)
 {
 	return (hex & 0x000000FF);
+}
+
+int		opposite_color_get(int hex)
+{
+	t_rgba	rgb;
+
+	rgb = hex_to_rgba(hex);
+	rgb.alpha = 255 - rgb.alpha;
+	rgb.red = 255 - rgb.red;
+	rgb.green = 255 - rgb.green;
+	rgb.blue = 255 - rgb.blue;
+	return (rgba_to_hex(rgb));
 }

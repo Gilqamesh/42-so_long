@@ -1,32 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_utils.h                                         :+:      :+:    :+:   */
+/*   ft_hooks.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/07 15:37:24 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/09 10:16:52 by edavid           ###   ########.fr       */
+/*   Created: 2021/07/09 10:02:09 by edavid            #+#    #+#             */
+/*   Updated: 2021/07/09 10:59:56 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_UTILS_H
-# define FT_UTILS_H
+#include <stdio.h>
+#include "mlx/mlx.h"
+#include "ft_hooks.h"
 
-typedef struct	s_data
+int	key_hook(int keycode, t_vars *vars)
 {
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}				t_data;
+	(void)vars;
+	printf("keycode: %d\n", keycode);
+	return (0);
+}
 
-void	my_mlx_pixel_put(t_data *data, double x, double y, int color);
-int		round_to_nearest(double a);
-int		abs_int(int a);
-double	abs_double(double a);
-double	max_of_3(double a, double b, double c);
-double	min_of_3(double a, double b, double c);
+int mouse_hook(t_vars *vars)
+{
+	int	x;
+	int	y;
 
-#endif
+	x = 0;
+	y = 0;
+	printf("mouse: %d %d\n", x, y);
+	(void)vars;
+	return (0);
+}
