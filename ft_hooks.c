@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   ft_hooks.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 10:02:09 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/09 15:25:50 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/10 14:26:46 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include "mlx/mlx.h"
+#include "mlx_linux/mlx.h"
 #include "ft_hooks.h"
 #include "ft_testers.h"
 #include "ft_colors.h"
 #include "ft_basic_shapes.h"
+#include "ft_structs.h"
 
 int	key_hook(int keycode, t_vars *vars)
 {

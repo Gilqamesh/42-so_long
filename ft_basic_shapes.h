@@ -3,23 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_basic_shapes.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 15:33:54 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/09 14:43:45 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/10 13:59:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_BASIC_SHAPES_H
 # define FT_BASIC_SHAPES_H
 
-typedef struct	s_point
-{
-	int	x;
-	int	y;
-}				t_point;
+# include "ft_structs.h"
 
-# include "ft_utils.h"
 void	circle_put_quick(t_data *data, int a, int b, int radius);
 void	circle_put_parametric(t_data *data, int a, int b, int radius, int color_hex);
 void	line_put_parametric(t_data *data, int x1, int y1, int x2, int y2, int color, int iter_n);

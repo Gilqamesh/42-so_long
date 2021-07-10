@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_basic_shapes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 15:33:48 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/09 15:05:43 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/10 14:01:55 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "ft_basic_shapes.h"
 #include "ft_colors.h"
 #include "ft_utils.h"
+#include "ft_structs.h"
 #define PI 3.142
 
 // the distribution of pixels is not even so its not easy to manipulate them, but the logic is pretty fast, does not iterate over unnecessary pixels

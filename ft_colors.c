@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_colors.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 16:17:06 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/09 14:31:58 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/10 14:01:59 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "ft_colors.h"
 #include "ft_utils.h"
+#include "ft_structs.h"
 
 t_node	mlx_red = {0x00FF0000, "red", 0};
 t_node	mlx_purple = {0x00FF00FF, "purple", 0};

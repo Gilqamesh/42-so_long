@@ -3,24 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 15:37:24 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/09 10:16:52 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/10 13:58:02 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_UTILS_H
 # define FT_UTILS_H
 
-typedef struct	s_data
-{
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}				t_data;
+# include "ft_structs.h"
 
 void	my_mlx_pixel_put(t_data *data, double x, double y, int color);
 int		round_to_nearest(double a);

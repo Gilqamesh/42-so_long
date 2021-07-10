@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 15:39:04 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/08 19:33:45 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/10 14:02:12 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include "ft_utils.h"
 #include "ft_colors.h"
+#include "ft_structs.h"
 
 void	my_mlx_pixel_put(t_data *data, double x, double y, int color)
 {
