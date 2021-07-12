@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 15:37:24 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/12 15:46:08 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/12 18:37:42 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ double	max_of_3(double a, double b, double c);
 double	min_of_3(double a, double b, double c);
 void	resize_img(t_vars vars, t_data *img, int old_width, int old_height, int new_width, int new_height);
 void	get_part_of_img(t_vars vars, t_data *img, t_point bot_left, t_point top_right);
+void	*ft_realloc(void *src, size_t size);
 
 #endif

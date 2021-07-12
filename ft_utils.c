@@ -6,12 +6,14 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 15:39:04 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/12 16:34:11 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/12 18:38:27 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include "libft/libft.h"
 #include "ft_utils.h"
 #include "mlx/mlx.h"
 
@@ -123,4 +125,18 @@ void	get_part_of_img(t_vars vars, t_data *img, t_point bot_left, t_point top_rig
 			my_mlx_pixel_put(&new_img, x_new, y_new, *(int *)(img->addr + y * img->line_length + x * (img->bits_per_pixel / 8)));
 	mlx_destroy_image(vars.mlx, img->img);
 	*img = new_img;
+}
+
+void	*ft_realloc(void *src, size_t size)
+{
+	void	*new;
+
+	new = malloc(size);
+	if (!new)
+		return (src);
+	if (!src)
+		return (new);
+	ft_memmove(new, src, size);
+	free(src);
+	return (new);
 }
