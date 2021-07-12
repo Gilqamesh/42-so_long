@@ -6,14 +6,13 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 10:02:09 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/09 15:25:50 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/12 14:45:17 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "mlx/mlx.h"
 #include "ft_hooks.h"
-#include "ft_testers.h"
 #include "ft_colors.h"
 #include "ft_basic_shapes.h"
 
@@ -30,12 +29,6 @@ int	mouse_hook(int button, int x, int y, t_vars *vars)
 {
 	(void)vars;
 	printf("mouse btn: %d x: %d y: %d\n", button, x, y);
-	return (0);
-}
-
-int	resize_msg(void)
-{
-	printf("Resizing window\n");
 	return (0);
 }
 
@@ -78,8 +71,8 @@ static int	wasd_pressed(int keycode, int *x, int *y, int *prev_x, int *prev_y)
 int		move_circle(int keycode, t_mystruct *mystruct)
 {
 	int	radius;
-
-	radius = 10;
+	radius = 85;
+	
 	// only do this on keypress, w = 13, a = 0, s = 1, d = 2
 	if (wasd_pressed(keycode, mystruct->x, mystruct->y, mystruct->prev_x, mystruct->prev_y))
 	{

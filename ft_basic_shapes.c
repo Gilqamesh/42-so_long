@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 15:33:48 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/09 15:05:43 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/12 16:38:11 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,12 @@ void	line_put_parametric(t_data *data, int x1, int y1, int x2, int y2, int color
 	}
 }
 
-void	square_put(t_data *data, int x1, int y1, int x2, int y2, int color, int iter_n, void (*line_fn)(t_data *data, int x1, int y1, int x2, int y2, int color, int iter_n))
+void	square_put(t_data *data, t_point bot_left, t_point top_right, int color, int iter_n, void (*line_fn)(t_data *data, int x1, int y1, int x2, int y2, int color, int iter_n))
 {
-	(*line_fn)(data, x1, y1, x2, y1, color, iter_n);
-	(*line_fn)(data, x2, y1, x2, y2, color, iter_n);
-	(*line_fn)(data, x2, y2, x1, y2, color, iter_n);
-	(*line_fn)(data, x1, y2, x1, y1, color, iter_n);
+	(*line_fn)(data, bot_left.x, bot_left.y, top_right.x, bot_left.y, color, iter_n);
+	(*line_fn)(data, top_right.x, bot_left.y, top_right.x, top_right.y, color, iter_n);
+	(*line_fn)(data, top_right.x, top_right.y, bot_left.x, top_right.y, color, iter_n);
+	(*line_fn)(data, bot_left.x, top_right.y, bot_left.x, bot_left.y, color, iter_n);
 }
 
 void	triangle_put(t_data *data, t_point A, t_point B, t_point C, int color, int iter_n, void (*line_fn)(t_data *data, int x1, int y1, int x2, int y2, int color, int iter_n))
