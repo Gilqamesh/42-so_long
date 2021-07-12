@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 16:16:58 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/12 19:08:11 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/12 20:47:08 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@
 #include <fcntl.h>
 #define SCREEN_WIDTH 1920
 #define SCREEN_HEIGHT 1080
-#define CELL_SIZE_W 50
-#define CELL_SIZE_H 50
 
 int main(void)
 {
@@ -33,6 +31,7 @@ int main(void)
 	char	*line;
 	char	**map;
 	int		line_counter;
+	int		map_width;
 
 	fd = open("maps/simple.ber", O_RDONLY);
 	if (fd == -1)
@@ -40,6 +39,7 @@ int main(void)
 	// parse map
 	line_counter = 0;
 	get_next_line(fd, &line);
+	map_width = ft_strlen(line) - 2;
 	while (*line != '\0')
 	{
 		map = ft_realloc(map, ++line_counter * sizeof(char *));
@@ -114,12 +114,21 @@ int main(void)
 		get_part_of_img(vars, &emptySpaceImg, A_point_empty, B_point_empty);
 		resize_img(vars, &emptySpaceImg, B_point_empty.x - A_point_empty.x, A_point_empty.y - B_point_empty.y, CELL_SIZE_W, CELL_SIZE_H);
 	//
+	t_data	*images = malloc(5 * sizeof(*images));
+	images[0] = wallImg;
+	images[1] = emptySpaceImg;
+	images[2] = mapExitImg;
+	images[3] = playerImg;
+	images[4] = collectibleImg;
 	//
 
 	// INITIALIZE MAP ON SCREEN
+	int		start_x;
+	int		start_y;
 	int		cur_line_counter;
 	int		cur_character;
 	char	cur_cell;
+	t_point	img_offset;
 
 	cur_line_counter = 0;
 	while (cur_line_counter < line_counter)
@@ -128,25 +137,42 @@ int main(void)
 		cur_cell = *(*(map + cur_line_counter) + cur_character);
 		while (cur_cell != '\0')
 		{
+			img_offset.x = CELL_SIZE_W * cur_character;
+			img_offset.y = CELL_SIZE_H * cur_line_counter;
 			if (cur_cell == '1') // WALL
-			{
-				
-			}
+				mlx_put_image_to_window(vars.mlx, vars.win, wallImg.img, img_offset.x, img_offset.y);
 			else if (cur_cell == '0') // EMPTY SPACE
-			{
-
-			}
+				mlx_put_image_to_window(vars.mlx, vars.win, emptySpaceImg.img, img_offset.x, img_offset.y);
 			else if (cur_cell == 'E') // MAP EXIT
-			{
-
-			}
+				mlx_put_image_to_window(vars.mlx, vars.win, mapExitImg.img, img_offset.x, img_offset.y);
 			else if (cur_cell == 'P') // PLAYER
 			{
-				
+				start_x = cur_character;
+				start_y = cur_line_counter;
+				mlx_put_image_to_window(vars.mlx, vars.win, playerImg.img, img_offset.x, img_offset.y);
 			}
-			else if (cur_cell == ) // 
+			else if (cur_cell == 'C') // COLLECTIBLE 
+				mlx_put_image_to_window(vars.mlx, vars.win, collectibleImg.img, img_offset.x, img_offset.y);
+			cur_cell = *(*(map + cur_line_counter) + ++cur_character);
 		}
+		cur_line_counter++;
 	}
+	//
+	// HOOKS
+	int	prev_x;
+	int	prev_y;
+	t_mystruct2	mystruct = {
+		&vars,
+		images,
+		&start_x,
+		&start_y,
+		&prev_x,
+		&prev_y,
+		map_width,
+		line_counter - 2,
+		&map
+	};
+	mlx_hook(vars.win, 02, (1L<<0), move_ninja, &mystruct);
 	//
 
 	// to initiate the window rendering, each hook that was registered prior to this will be called accordingly by order of registration

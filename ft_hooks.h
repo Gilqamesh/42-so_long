@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 10:01:50 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/12 14:36:35 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/12 20:18:08 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,6 @@
 int	key_hook(int keycode, t_vars *vars);
 int mouse_hook(int button, int x, int y, t_vars *vars);
 int	move_circle(int keycode, t_mystruct *mystruct);
+int	move_ninja(int keycode, t_mystruct2 *mystruct);
 
 #endif

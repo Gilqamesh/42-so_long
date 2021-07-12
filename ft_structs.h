@@ -6,12 +6,14 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 14:00:36 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/12 14:00:38 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/12 20:27:30 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_STRUCTS_H
 # define FT_STRUCTS_H
+# define CELL_SIZE_W 50
+# define CELL_SIZE_H 50
 
 typedef struct	s_data
 {
@@ -37,6 +39,20 @@ typedef struct	s_mystruct
 	int		*prev_x;
 	int		*prev_y;
 }				t_mystruct;
+
+typedef struct	s_mystruct2
+{
+	t_vars	*vars;
+	t_data	*images;
+	int		*x;
+	int		*y;
+	int		*prev_x;
+	int		*prev_y;
+	int		map_width;
+	int		map_height;
+	char	***map;
+	
+}				t_mystruct2;
 
 typedef struct	s_rgba
 {
