@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 15:39:04 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/12 18:38:27 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/13 11:54:33 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "libft/libft.h"
 #include "ft_utils.h"
 #include "mlx/mlx.h"
+#include "ft_error.h"
 
 void	my_mlx_pixel_put(t_data *data, double x, double y, int color)
 {
@@ -139,4 +140,63 @@ void	*ft_realloc(void *src, size_t size)
 	ft_memmove(new, src, size);
 	free(src);
 	return (new);
+}
+
+void	free_map(char ***map, int n_of_pointers)
+{
+	while (n_of_pointers--)
+		free(*(*map + n_of_pointers));
+	free(*map);
+}
+
+void	validate_map(char ***map, int rows, int cols)
+{
+	int		x;
+	int		y;
+	int		exit_exists;
+	int		collectible_exists;
+	int		player_exists;
+	char	c;
+
+	y = 0;
+	exit_exists = 0;
+	collectible_exists = 0;
+	player_exists = 0;
+	while (y < rows)
+	{
+		x = 0;
+		while (x < cols)
+		{
+			c = *(*(*map + y) + x);
+			if (c == 'C')
+				collectible_exists = 1;
+			else if (c == 'E')
+				exit_exists = 1;
+			else if (c == 'P')
+				player_exists = 1;
+			if (((x == 0 || x == cols - 1) && c != '1') ||
+				((y == 0 || y == rows - 1) && c != '1'))
+			{
+				free_map(map, rows);
+				ft_error("map is not enclosed by walls");
+			}
+			x++;
+		}
+		y++;
+	}
+	if (!exit_exists)
+	{
+		free_map(map, rows);
+		ft_error("no exit on map");
+	}
+	if (!collectible_exists)
+	{
+		free_map(map, rows);
+		ft_error("no collectible on map");
+	}
+	if (!player_exists)
+	{
+		free_map(map, rows);
+		ft_error("no starting position on map");
+	}
 }

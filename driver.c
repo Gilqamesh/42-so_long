@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 16:16:58 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/12 20:47:08 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/13 11:53:13 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 #include <unistd.h>
 #include "gnl/ft_get_next_line.h"
 #include <fcntl.h>
+#include "ft_error.h"
+#include "errno.h"
 #define SCREEN_WIDTH 1920
 #define SCREEN_HEIGHT 1080
 
@@ -35,18 +37,30 @@ int main(void)
 
 	fd = open("maps/simple.ber", O_RDONLY);
 	if (fd == -1)
-		return (-1);
+		ft_error("open returned -1 fd");
 	// parse map
 	line_counter = 0;
-	get_next_line(fd, &line);
+	if (get_next_line(fd, &line) < 0)
+		ft_error("get_next_line negative return value");
 	map_width = ft_strlen(line) - 2;
 	while (*line != '\0')
 	{
 		map = ft_realloc(map, ++line_counter * sizeof(char *));
 		*(map + line_counter - 1) = line;
-		get_next_line(fd, &line);
+		if (get_next_line(fd, &line) < 0)
+		{
+			free_map(&map, line_counter);
+			ft_error("get_next_line negative return value");
+		}
+		if (*line && (int)ft_strlen(line) - 2 != map_width)
+		{
+			free_map(&map, line_counter);
+			ft_error("map is not rectangular");
+		}
 	}
 	free(line);
+	validate_map(&map, line_counter, map_width + 2);
+		
 		// for (int i = 0; i < line_counter; i++)	// PRINT OUT PARSED MAP
 		// 	printf("%s\n", *(map + i));
 	//
@@ -74,6 +88,7 @@ int main(void)
 	t_data	collectibleImg;
 	t_data	mapExitImg;
 	t_data	playerImg;
+	t_data	playerImgBlank;
 	// WALL IMAGE
 		int	wallImgWidth, wallImgHeight;
 		wallImg.img = mlx_xpm_file_to_image(vars.mlx, "sprites/megapixelart.xpm", &wallImgWidth, &wallImgHeight);
@@ -89,6 +104,15 @@ int main(void)
 		t_point A_point_player = {73, 116}, B_point_player = {113, 58};
 		get_part_of_img(vars, &playerImg, A_point_player, B_point_player);
 		resize_img(vars, &playerImg, B_point_player.x - A_point_player.x, A_point_player.y - B_point_player.y, CELL_SIZE_W, CELL_SIZE_H);
+	//
+	// PLAYER IMAGE BLANK
+		playerImgBlank.img = mlx_new_image(vars.mlx, playerImgWidth, playerImgHeight);
+		playerImgBlank.addr = mlx_get_data_addr(playerImgBlank.img, &playerImgBlank.bits_per_pixel, &playerImgBlank.line_length, &playerImgBlank.endian);
+		get_part_of_img(vars, &playerImgBlank, A_point_player, B_point_player);
+		resize_img(vars, &playerImgBlank, B_point_player.x - A_point_player.x, A_point_player.y - B_point_player.y, CELL_SIZE_W, CELL_SIZE_H);
+		for (int y = 0; y < CELL_SIZE_H; y++)
+			for (int x = 0; x < CELL_SIZE_W; x++)
+				my_mlx_pixel_put(&playerImgBlank, x, y, mlx_black.value);
 	//
 	// MAP EXIT IMAGE
 		int	mapExitImgWidth, mapExitImgHeight;
@@ -114,12 +138,13 @@ int main(void)
 		get_part_of_img(vars, &emptySpaceImg, A_point_empty, B_point_empty);
 		resize_img(vars, &emptySpaceImg, B_point_empty.x - A_point_empty.x, A_point_empty.y - B_point_empty.y, CELL_SIZE_W, CELL_SIZE_H);
 	//
-	t_data	*images = malloc(5 * sizeof(*images));
+	t_data	*images = malloc(6 * sizeof(*images));
 	images[0] = wallImg;
 	images[1] = emptySpaceImg;
 	images[2] = mapExitImg;
 	images[3] = playerImg;
 	images[4] = collectibleImg;
+	images[5] = playerImgBlank;
 	//
 
 	// INITIALIZE MAP ON SCREEN
@@ -172,6 +197,7 @@ int main(void)
 		line_counter - 2,
 		&map
 	};
+	mlx_hook(vars.win, 17, (1L<<17), exit_clicked, &mystruct);
 	mlx_hook(vars.win, 02, (1L<<0), move_ninja, &mystruct);
 	//
 

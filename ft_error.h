@@ -1,24 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_hooks.h                                         :+:      :+:    :+:   */
+/*   ft_error.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/09 10:01:50 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/13 10:19:13 by edavid           ###   ########.fr       */
+/*   Created: 2021/07/13 10:26:15 by edavid            #+#    #+#             */
+/*   Updated: 2021/07/13 11:00:42 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_HOOKS_H
-# define FT_HOOKS_H
+#ifndef FT_ERROR_H
+# define FT_ERROR_H
 
-# include "ft_structs.h"
-
-int	key_hook(int keycode, t_vars *vars);
-int mouse_hook(int button, int x, int y, t_vars *vars);
-int	move_circle(int keycode, t_mystruct *mystruct);
-int	move_ninja(int keycode, t_mystruct2 *mystruct);
-int	exit_clicked(t_mystruct2 *mystruct);
+void	ft_error(char *msg);
 
 #endif

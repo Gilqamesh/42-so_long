@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 10:02:09 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/12 20:53:05 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/13 10:19:10 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,6 @@ static int	wasd_pressed(int keycode, int *x, int *y, int *prev_x, int *prev_y)
 
 static int	wasd_pressed2(int keycode, int *x, int *y, int *prev_x, int *prev_y, int map_width, int map_height, char ***map)
 {
-	 for (int i = 0; i < map_height; i++)	// PRINT OUT PARSED MAP
-	 	printf("%s\n", *(*map + i));
 	if (keycode == 13) // W
 	{
 		*prev_x = *x;
@@ -153,9 +151,20 @@ int		move_ninja(int keycode, t_mystruct2 *mystruct)
 	}
 	if (wasd_pressed2(keycode, mystruct->x, mystruct->y, mystruct->prev_x, mystruct->prev_y, mystruct->map_width, mystruct->map_height, mystruct->map))
 	{
-		// EMPTY SPACE IMAGE[1] DOES NOT REPLACE PREVIOUS IMAGE CORRECTLY
-		mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, mystruct->images[1].img, *mystruct->prev_x * CELL_SIZE_W, *mystruct->prev_y * CELL_SIZE_H);
+		mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, mystruct->images[5].img, *mystruct->prev_x * CELL_SIZE_W, *mystruct->prev_y * CELL_SIZE_H);
 		mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, mystruct->images[3].img, *mystruct->x * CELL_SIZE_W, *mystruct->y * CELL_SIZE_H);
 	}
 	return (0);
+}
+
+int		exit_clicked(t_mystruct2 *mystruct)
+{
+	int	cur_line_counter;
+
+	mlx_destroy_window(mystruct->vars->mlx, mystruct->vars->win);
+	cur_line_counter = 0;
+	while (cur_line_counter < mystruct->map_height)
+		free(*(*mystruct->map + cur_line_counter++));
+	free(*mystruct->map);
+	exit(EXIT_SUCCESS);
 }
