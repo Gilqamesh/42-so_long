@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 14:00:36 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/13 15:10:02 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/13 19:16:53 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ typedef struct	s_mystruct2
 {
 	t_vars	*vars;
 	t_data	*images;
+	t_data	*numberImages;
+	t_data	*playerMovement;
 	t_point *cur_position;
 	int		*prev_x;
 	int		*prev_y;

@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 15:37:24 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/13 14:12:38 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/13 19:32:31 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	*ft_realloc(void *src, size_t size);
 void	free_map(char ***map, int n_of_pointers);
 void	validate_map(char ***map, int rows, int cols);
 void	initialize_map(char ***map, int *map_width, int *map_height, char *filePath);
-void	draw_map(char ***map, int map_height, t_data *images, t_point *start_point, t_vars vars);
+void	draw_map(char ***map, int map_height, t_data *images, t_point *start_point, t_vars vars, t_data *playerMovement);
+t_data	get_blank_image(void *mlx_ptr, int width, int height);
+void	number_put(int n, int x, int y, t_mystruct2 *mystruct, int previous_n);
 
 #endif

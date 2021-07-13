@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 16:16:58 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/13 17:28:44 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/13 19:59:47 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int main(int argc, char **argv)
 	t_data	wallImg;
 	t_data	collectibleImg;
 	t_data	mapExitImg;
-	t_data	playerImg;
 	t_data	blankImg;
 	// WALL IMAGE
 		int	wallImgWidth, wallImgHeight;
@@ -65,20 +64,8 @@ int main(int argc, char **argv)
 		get_part_of_img(vars, &wallImg, A_point_wall, B_point_wall);
 		resize_img(vars, &wallImg, B_point_wall.x - A_point_wall.x, A_point_wall.y - B_point_wall.y, CELL_SIZE_W, CELL_SIZE_H);
 	//
-	// PLAYER IMAGE
-		int	playerImgWidth, playerImgHeight;
-		playerImg.img = mlx_xpm_file_to_image(vars.mlx, "sprites/run.xpm", &playerImgWidth, &playerImgHeight);
-		playerImg.addr = mlx_get_data_addr(playerImg.img, &playerImg.bits_per_pixel, &playerImg.line_length, &playerImg.endian);
-		t_point A_point_player = {73, 116}, B_point_player = {113, 58};
-		get_part_of_img(vars, &playerImg, A_point_player, B_point_player);
-		resize_img(vars, &playerImg, B_point_player.x - A_point_player.x, A_point_player.y - B_point_player.y, CELL_SIZE_W, CELL_SIZE_H);
-	//
 	// BLANK IMAGE
-		blankImg.img = mlx_new_image(vars.mlx, CELL_SIZE_W, CELL_SIZE_H);
-		blankImg.addr = mlx_get_data_addr(blankImg.img, &blankImg.bits_per_pixel, &blankImg.line_length, &blankImg.endian);
-		for (int y = 0; y < CELL_SIZE_H; y++)
-			for (int x = 0; x < CELL_SIZE_W; x++)
-				my_mlx_pixel_put(&blankImg, x, y, mlx_black.value);
+		blankImg = get_blank_image(vars.mlx, CELL_SIZE_W, CELL_SIZE_H);
 	//
 	// MAP EXIT IMAGE
 		int	mapExitImgWidth, mapExitImgHeight;
@@ -108,68 +95,87 @@ int main(int argc, char **argv)
 	images[0] = wallImg;
 	images[1] = emptySpaceImg;
 	images[2] = mapExitImg;
-	images[3] = playerImg;
-	images[4] = collectibleImg;
-	images[5] = blankImg;
+	images[3] = collectibleImg;
+	images[4] = blankImg;
+	// PLAYER IMAGE
+	t_data	*playerMovement = malloc(8 * sizeof(*playerMovement));
+		for (int i = 0; i < 8; i++)
+		{
+			int	playerImgWidth, playerImgHeight;
+			playerMovement[i].img = mlx_xpm_file_to_image(vars.mlx, "sprites/run.xpm", &playerImgWidth, &playerImgHeight);
+			playerMovement[i].addr = mlx_get_data_addr(playerMovement[i].img, &(playerMovement + i)->bits_per_pixel, &(playerMovement + i)->line_length, &(playerMovement + i)->endian);
+			t_point A_point_player = {73 + i * 180, 116}, B_point_player = {113 + i * 180, 58};
+			get_part_of_img(vars, playerMovement + i, A_point_player, B_point_player);
+			resize_img(vars, playerMovement + i, B_point_player.x - A_point_player.x, A_point_player.y - B_point_player.y, CELL_SIZE_W, CELL_SIZE_H);
+			// mlx_put_image_to_window(vars.mlx, vars.win, (playerMovement + i)->img, 10 + i * 80, 10);
+		}
+	//
 	//
 
 	// get number images
-	t_data	*numberImages = malloc(9 * sizeof(*numberImages));
+	t_data	*numberImages = malloc(11 * sizeof(*numberImages));
 	int		numberWidth;
 	int		numberHeight;
 	int		numberIndex;
-	for (int rows = 0; rows < 1; rows++)
+	numberImages[0].img = mlx_xpm_file_to_image(vars.mlx, "sprites/numbers.xpm", &numberWidth, &numberHeight);
+	numberImages[0].addr = mlx_get_data_addr(numberImages[0].img, &numberImages[0].bits_per_pixel, &numberImages[0].line_length, &numberImages[0].endian);
+	t_point Q_0 = {355, 732};
+	t_point P_0 = {465, 555};
+	get_part_of_img(vars, &numberImages[0], Q_0, P_0);
+	resize_img(vars, numberImages, P_0.x - Q_0.x, Q_0.y - P_0.y, 50, 82);
+	for (int rows = 0; rows < 2; rows++)
 	{
-		for (int cols = 0; cols < 2; cols++)
+		for (int cols = 0; cols < 4; cols++)
 		{
-			numberIndex = rows * 4 + cols;
+			numberIndex = rows * 4 + cols + 1;
 			numberImages[numberIndex].img = mlx_xpm_file_to_image(vars.mlx, "sprites/numbers.xpm", &numberWidth, &numberHeight);
 			numberImages[numberIndex].addr = mlx_get_data_addr(numberImages[numberIndex].img, &numberImages[numberIndex].bits_per_pixel, &numberImages[numberIndex].line_length, &numberImages[numberIndex].endian);
-			int x_offset = 22;
+			int x_offset = 15;
 			int y_offset = 71;
-			t_point Q = {x_offset + 128 * cols, y_offset + 177 + 120 * rows};
-			t_point P = {x_offset + 108 + 128 * cols, y_offset + 120 * rows};
+			t_point Q = {x_offset + 145 * cols, y_offset + 177 + 240 * rows};
+			t_point P = {x_offset + 140 + 145 * cols, y_offset + 240 * rows};
 			get_part_of_img(vars, numberImages + numberIndex, Q, P);
 			resize_img(vars, numberImages + numberIndex, P.x - Q.x, Q.y - P.y, 50, 82);
-			mlx_put_image_to_window(vars.mlx, vars.win, numberImages[numberIndex].img, Q.x, P.y);
-			if (rows == 1 && cols == 3 ) // dont need number 10
+			if (rows == 1 && cols == 3 )
 				break ;
 		}
 	}
-	// Width of number: 108
-	// Height of number: 177
-	numberImages[8].img = mlx_xpm_file_to_image(vars.mlx, "sprites/numbers.xpm", &numberWidth, &numberHeight);
-	numberImages[8].addr = mlx_get_data_addr(numberImages[8].img, &numberImages[8].bits_per_pixel, &numberImages[8].line_length, &numberImages[8].endian);
+	numberImages[9].img = mlx_xpm_file_to_image(vars.mlx, "sprites/numbers.xpm", &numberWidth, &numberHeight);
+	numberImages[9].addr = mlx_get_data_addr(numberImages[9].img, &numberImages[9].bits_per_pixel, &numberImages[9].line_length, &numberImages[9].endian);
 	t_point Q = {124, 732};
 	t_point P = {232, 555};
-	get_part_of_img(vars, &numberImages[8], Q, P);
-	resize_img(vars, numberImages + 8, P.x - Q.x, Q.y - P.y, 50, 82);
-	mlx_put_image_to_window(vars.mlx, vars.win, numberImages[8].img, Q.x, P.y);
+	get_part_of_img(vars, &numberImages[9], Q, P);
+	resize_img(vars, numberImages + 9, P.x - Q.x, Q.y - P.y, 50, 82);
+	numberImages[10] = get_blank_image(vars.mlx, 50, 82);
 	//
 
 	// draw map on screen
-	// t_point start_point;
-	// draw_map(&map, map_height, images, &start_point, vars);
+	t_point start_point;
+	draw_map(&map, map_height, images, &start_point, vars, playerMovement);
 	//
 	
 	// HOOKS
-	// int	prev_x;
-	// int	prev_y;
-	// int	move_counter = 0;
-	// t_mystruct2	mystruct = {
-	// 	&vars,
-	// 	images,
-	// 	&start_point,
-	// 	&prev_x,
-	// 	&prev_y,
-	// 	map_width,
-	// 	map_height - 2,
-	// 	&map,
-	// 	argv[1],
-	// 	&move_counter
-	// };
-	// mlx_hook(vars.win, 17, (1L<<17), exit_clicked, &mystruct);
-	// mlx_hook(vars.win, 02, (1L<<0), move_ninja, &mystruct);
+	int	prev_x;
+	int	prev_y;
+	int	move_counter = 0;
+	t_mystruct2	mystruct = {
+		&vars,
+		images,
+		numberImages,
+		playerMovement,
+		&start_point,
+		&prev_x,
+		&prev_y,
+		map_width,
+		map_height - 2, // fix this to pass in map_height
+		&map,
+		argv[1],
+		&move_counter
+	};
+	number_put(0, 600, 600, &mystruct, 0);
+	mlx_hook(vars.win, 17, (1L<<17), exit_clicked, &mystruct);
+	mlx_hook(vars.win, 02, (1L<<0), move_ninja, &mystruct);
+	mlx_loop_hook(vars.mlx, patrol_enemy, &mystruct);
 	//
 
 	// to initiate the window rendering, each hook that was registered prior to this will be called accordingly by order of registration

@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 15:39:04 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/13 16:55:20 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/13 19:33:35 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "gnl/ft_get_next_line.h"
 #include <fcntl.h>
 #include <unistd.h>
+#include "ft_colors.h"
 
 void	my_mlx_pixel_put(t_data *data, double x, double y, int color)
 {
@@ -236,7 +237,7 @@ void	initialize_map(char ***map, int *map_width, int *map_height, char *filePath
 	close(fd);
 }
 
-void	draw_map(char ***map, int map_height, t_data *images, t_point *start_point, t_vars vars)
+void	draw_map(char ***map, int map_height, t_data *images, t_point *start_point, t_vars vars, t_data *playerMovement)
 {
 	
 	int		cur_map_height;
@@ -263,12 +264,44 @@ void	draw_map(char ***map, int map_height, t_data *images, t_point *start_point,
 			{
 				start_point->x = cur_character;
 				start_point->y = cur_map_height;
-				mlx_put_image_to_window(vars.mlx, vars.win, images[3].img, img_offset.x, img_offset.y);
+				mlx_put_image_to_window(vars.mlx, vars.win, playerMovement->img, img_offset.x, img_offset.y);
 			}
 			else if (cur_cell == 'C') // COLLECTIBLE 
-				mlx_put_image_to_window(vars.mlx, vars.win, images[4].img, img_offset.x, img_offset.y);
+				mlx_put_image_to_window(vars.mlx, vars.win, images[3].img, img_offset.x, img_offset.y);
 			cur_cell = *(*(*map + cur_map_height) + ++cur_character);
 		}
 		cur_map_height++;
 	}
+}
+
+t_data	get_blank_image(void *mlx_ptr, int width, int height)
+{
+	t_data	img;
+
+	img.img = mlx_new_image(mlx_ptr, width, height);
+	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
+	for (int y = 0; y < height; y++)
+		for (int x = 0; x < width; x++)
+			my_mlx_pixel_put(&img, x, y, mlx_black.value);
+	return (img);
+}
+
+void	number_put(int n, int x, int y, t_mystruct2 *mystruct, int previous_n)
+{
+	char	*str;
+	char	*previous_str;
+	int		i;
+	int		len;
+
+	str = ft_itoa(n);
+	previous_str = ft_itoa(previous_n);
+	len = ft_strlen(previous_str);
+	i = -1;
+	while (++i < len)
+		mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (mystruct->numberImages + 10)->img, x + i * 55, y);
+	i = -1;
+	while (str[++i])
+		mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (mystruct->numberImages + str[i] - '0')->img, x + i * 55, y);
+	free(str);
+	free(previous_str);
 }
