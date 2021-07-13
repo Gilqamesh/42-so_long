@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 16:16:58 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/13 16:45:22 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/13 17:28:44 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,25 +117,25 @@ int main(int argc, char **argv)
 	t_data	*numberImages = malloc(9 * sizeof(*numberImages));
 	int		numberWidth;
 	int		numberHeight;
-	// int		numberIndex;
-	// for (int rows = 0; rows < 2; rows++)
-	// {
-	// 	for (int cols = 0; cols < 4; cols++)
-	// 	{
-	// 		numberIndex = rows * 4 + cols;
-	// 		numberImages[numberIndex].img = mlx_xpm_file_to_image(vars.mlx, "sprites/numbers.xpm", &numberWidth, &numberHeight);
-	// 		numberImages[numberIndex].addr = mlx_get_data_addr(numberImages[numberIndex].img, &numberImages[numberIndex].bits_per_pixel, &numberImages[numberIndex].line_length, &numberImages[numberIndex].endian);
-	// 		t_point Q = {20 + 120 * cols, 200 + 120 * rows};
-	// 		t_point P = {100 + 120 * cols, 80 + 120 * rows};
-	// 		get_part_of_img(vars, numberImages + numberIndex, Q, P);
-	// 		resize_img(vars, numberImages + numberIndex, numberWidth, numberHeight, CELL_SIZE_W, CELL_SIZE_H);
-	// 		mlx_put_image_to_window(vars.mlx, vars.win, numberImages[numberIndex].img, cols * 50, rows * 50);
-	// 		// square_put(&img, Q, P, mlx_red.value, 1000, line_put_parametric);
-	// 		// mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
-	// 		if (rows == 1 && cols == 3 ) // dont need number 10
-	// 			break ;
-	// 	}
-	// }
+	int		numberIndex;
+	for (int rows = 0; rows < 1; rows++)
+	{
+		for (int cols = 0; cols < 2; cols++)
+		{
+			numberIndex = rows * 4 + cols;
+			numberImages[numberIndex].img = mlx_xpm_file_to_image(vars.mlx, "sprites/numbers.xpm", &numberWidth, &numberHeight);
+			numberImages[numberIndex].addr = mlx_get_data_addr(numberImages[numberIndex].img, &numberImages[numberIndex].bits_per_pixel, &numberImages[numberIndex].line_length, &numberImages[numberIndex].endian);
+			int x_offset = 22;
+			int y_offset = 71;
+			t_point Q = {x_offset + 128 * cols, y_offset + 177 + 120 * rows};
+			t_point P = {x_offset + 108 + 128 * cols, y_offset + 120 * rows};
+			get_part_of_img(vars, numberImages + numberIndex, Q, P);
+			resize_img(vars, numberImages + numberIndex, P.x - Q.x, Q.y - P.y, 50, 82);
+			mlx_put_image_to_window(vars.mlx, vars.win, numberImages[numberIndex].img, Q.x, P.y);
+			if (rows == 1 && cols == 3 ) // dont need number 10
+				break ;
+		}
+	}
 	// Width of number: 108
 	// Height of number: 177
 	numberImages[8].img = mlx_xpm_file_to_image(vars.mlx, "sprites/numbers.xpm", &numberWidth, &numberHeight);
@@ -143,9 +143,7 @@ int main(int argc, char **argv)
 	t_point Q = {124, 732};
 	t_point P = {232, 555};
 	get_part_of_img(vars, &numberImages[8], Q, P);
-	square_put(&img, Q, P, mlx_red.value, 1000, line_put_parametric);
-	mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
-	resize_img(vars, &numberImages[8], numberWidth, numberHeight, CELL_SIZE_W, CELL_SIZE_H);
+	resize_img(vars, numberImages + 8, P.x - Q.x, Q.y - P.y, 50, 82);
 	mlx_put_image_to_window(vars.mlx, vars.win, numberImages[8].img, Q.x, P.y);
 	//
 
