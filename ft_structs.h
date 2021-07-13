@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 14:00:36 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/13 14:09:29 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/13 15:10:02 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 # define FT_STRUCTS_H
 # define CELL_SIZE_W 50
 # define CELL_SIZE_H 50
+
+typedef struct	s_point
+{
+	int	x;
+	int	y;
+}				t_point;
 
 typedef struct	s_data
 {
@@ -44,15 +50,14 @@ typedef struct	s_mystruct2
 {
 	t_vars	*vars;
 	t_data	*images;
-	int		*x;
-	int		*y;
+	t_point *cur_position;
 	int		*prev_x;
 	int		*prev_y;
 	int		map_width;
 	int		map_height;
 	char	***map;
 	char	*filePath;
-	
+	int		*move_counter;
 }				t_mystruct2;
 
 typedef struct	s_rgba
@@ -76,11 +81,5 @@ typedef struct	s_node
 	char			*name;
 	struct s_node	*next;
 }				t_node;
-
-typedef struct	s_point
-{
-	int	x;
-	int	y;
-}				t_point;
 
 #endif

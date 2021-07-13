@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 10:02:09 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/13 14:13:55 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/13 15:32:26 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,50 +73,54 @@ static int	wasd_pressed(int keycode, int *x, int *y, int *prev_x, int *prev_y)
 	return (0);
 }
 
-static int	wasd_pressed2(int keycode, int *x, int *y, int *prev_x, int *prev_y, int map_width, int map_height, char ***map)
+static int	wasd_pressed2(int keycode, t_point *cur_pos, int *prev_x, int *prev_y, int map_width, int map_height, char ***map, int *move_counter)
 {
 	if (keycode == 13) // W
 	{
-		*prev_x = *x;
-		*prev_y = *y;
+		*prev_x = cur_pos->x;
+		*prev_y = cur_pos->y;
 		if (*prev_y - 1 < 0)
 			return (0);
 		if (*(*(*map + *prev_y - 1) + *prev_x) == '1')
 			return (0);
-		(*y)--;
+		(cur_pos->y)--;
+		(*move_counter)++;
 		return (1);
 	}
 	else if (keycode == 0) // A
 	{
-		*prev_x = *x;
-		*prev_y = *y;
+		*prev_x = cur_pos->x;
+		*prev_y = cur_pos->y;
 		if (*prev_x - 1 < 0)
 			return (0);
 		if (*(*(*map + *prev_y) + *prev_x - 1) == '1')
 			return (0);
-		(*x)--;
+		(cur_pos->x)--;
+		(*move_counter)++;
 		return (1);
 	}
 	else if (keycode == 1) // S
 	{
-		*prev_x = *x;
-		*prev_y = *y;
+		*prev_x = cur_pos->x;
+		*prev_y = cur_pos->y;
 		if (*prev_y + 1 > map_height)
 			return (0);
 		if (*(*(*map + *prev_y + 1) + *prev_x) == '1')
 			return (0);
-		(*y)++;
+		(cur_pos->y)++;
+		(*move_counter)++;
 		return (1);
 	}
 	else if (keycode == 2) // D
 	{
-		*prev_x = *x;
-		*prev_y = *y;
+		*prev_x = cur_pos->x;
+		*prev_y = cur_pos->y;
 		if (*prev_x + 1 > map_width)
 			return (0);
 		if (*(*(*map + *prev_y) + *prev_x + 1) == '1')
 			return (0);
-		(*x)++;
+		(cur_pos->x)++;
+		(*move_counter)++;
 		return (1);
 	}
 	return (0);
@@ -137,10 +141,21 @@ int		move_circle(int keycode, t_mystruct *mystruct)
 	return (0);
 }
 
+static int	all_collected(char ***map, int width, int height)
+{
+	for (int y = 0; y < height; y++)
+		for (int x = 0; x < width; x++)
+			if (*(*(*map + y) + x) == 'C')
+				return (0);
+	return (1);
+}
+
 int		move_ninja(int keycode, t_mystruct2 *mystruct)
 {
 	int		cur_line_counter;
-	char	c;
+	char	cur_c;
+	char	prev_c;
+	int		is_all_collected;
 
 	if (keycode == 53)
 	{
@@ -151,19 +166,39 @@ int		move_ninja(int keycode, t_mystruct2 *mystruct)
 		free(*mystruct->map);
 		exit(EXIT_SUCCESS);
 	}
-	if (wasd_pressed2(keycode, mystruct->x, mystruct->y, mystruct->prev_x, mystruct->prev_y, mystruct->map_width, mystruct->map_height, mystruct->map))
+	if (wasd_pressed2(keycode, mystruct->cur_position, mystruct->prev_x, mystruct->prev_y, mystruct->map_width, mystruct->map_height, mystruct->map, mystruct->move_counter))
 	{
+		cur_c = *(*((*mystruct->map) + mystruct->cur_position->y) + mystruct->cur_position->x);
+		prev_c = *(*((*mystruct->map) + *mystruct->prev_y) + *mystruct->prev_x);
 		mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, mystruct->images[5].img, *mystruct->prev_x * CELL_SIZE_W, *mystruct->prev_y * CELL_SIZE_H);
-		c = *(*((*mystruct->map) + *mystruct->y) + *mystruct->x);
-		if (c == 'C')
-			mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, mystruct->images[5].img, *mystruct->x * CELL_SIZE_W, *mystruct->y * CELL_SIZE_H);
-		if (c == 'E') // end of game condition, then ex. initialize map again
+		if (prev_c == 'Q')
+			mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, mystruct->images[2].img, *mystruct->prev_x * CELL_SIZE_W, *mystruct->prev_y * CELL_SIZE_H);
+		if (cur_c == 'C')
+		{
+			mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, mystruct->images[5].img, mystruct->cur_position->x * CELL_SIZE_W, mystruct->cur_position->y * CELL_SIZE_H);
+			*(*((*mystruct->map) + *mystruct->prev_y) + *mystruct->prev_x) = '0';
+			*(*((*mystruct->map) + mystruct->cur_position->y) + mystruct->cur_position->x) = 'P';
+		}
+		is_all_collected = all_collected(mystruct->map, mystruct->map_width, mystruct->map_height);
+		if (cur_c == 'E' && is_all_collected) // end of game condition, then ex. initialize map again
 		{
 			initialize_map(mystruct->map, &mystruct->map_width, &mystruct->map_height, mystruct->filePath);
-			draw_map(mystruct->map, mystruct->map_height, mystruct->images, &(t_point){*mystruct->x, *mystruct->x}, *mystruct->vars);
+			draw_map(mystruct->map, mystruct->map_height, mystruct->images, mystruct->cur_position, *mystruct->vars);
+			*mystruct->move_counter = 0;
 		}
 		else
-			mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, mystruct->images[3].img, *mystruct->x * CELL_SIZE_W, *mystruct->y * CELL_SIZE_H);
+		{
+			printf("move counter: %d\n", *mystruct->move_counter);
+			mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, mystruct->images[3].img, mystruct->cur_position->x * CELL_SIZE_W, mystruct->cur_position->y * CELL_SIZE_H);
+			if (prev_c == 'Q')
+				*(*((*mystruct->map) + *mystruct->prev_y) + *mystruct->prev_x) = 'E';
+			else
+				*(*((*mystruct->map) + *mystruct->prev_y) + *mystruct->prev_x) = '0';
+			if (cur_c == 'E')
+				*(*((*mystruct->map) + mystruct->cur_position->y) + mystruct->cur_position->x) = 'Q';
+			else
+				*(*((*mystruct->map) + mystruct->cur_position->y) + mystruct->cur_position->x) = 'P';
+		}
 	}
 	return (0);
 }

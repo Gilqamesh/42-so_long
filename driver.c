@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 16:16:58 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/13 14:12:47 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/13 16:45:22 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,28 +113,65 @@ int main(int argc, char **argv)
 	images[5] = blankImg;
 	//
 
+	// get number images
+	t_data	*numberImages = malloc(9 * sizeof(*numberImages));
+	int		numberWidth;
+	int		numberHeight;
+	// int		numberIndex;
+	// for (int rows = 0; rows < 2; rows++)
+	// {
+	// 	for (int cols = 0; cols < 4; cols++)
+	// 	{
+	// 		numberIndex = rows * 4 + cols;
+	// 		numberImages[numberIndex].img = mlx_xpm_file_to_image(vars.mlx, "sprites/numbers.xpm", &numberWidth, &numberHeight);
+	// 		numberImages[numberIndex].addr = mlx_get_data_addr(numberImages[numberIndex].img, &numberImages[numberIndex].bits_per_pixel, &numberImages[numberIndex].line_length, &numberImages[numberIndex].endian);
+	// 		t_point Q = {20 + 120 * cols, 200 + 120 * rows};
+	// 		t_point P = {100 + 120 * cols, 80 + 120 * rows};
+	// 		get_part_of_img(vars, numberImages + numberIndex, Q, P);
+	// 		resize_img(vars, numberImages + numberIndex, numberWidth, numberHeight, CELL_SIZE_W, CELL_SIZE_H);
+	// 		mlx_put_image_to_window(vars.mlx, vars.win, numberImages[numberIndex].img, cols * 50, rows * 50);
+	// 		// square_put(&img, Q, P, mlx_red.value, 1000, line_put_parametric);
+	// 		// mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
+	// 		if (rows == 1 && cols == 3 ) // dont need number 10
+	// 			break ;
+	// 	}
+	// }
+	// Width of number: 108
+	// Height of number: 177
+	numberImages[8].img = mlx_xpm_file_to_image(vars.mlx, "sprites/numbers.xpm", &numberWidth, &numberHeight);
+	numberImages[8].addr = mlx_get_data_addr(numberImages[8].img, &numberImages[8].bits_per_pixel, &numberImages[8].line_length, &numberImages[8].endian);
+	t_point Q = {124, 732};
+	t_point P = {232, 555};
+	get_part_of_img(vars, &numberImages[8], Q, P);
+	square_put(&img, Q, P, mlx_red.value, 1000, line_put_parametric);
+	mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
+	resize_img(vars, &numberImages[8], numberWidth, numberHeight, CELL_SIZE_W, CELL_SIZE_H);
+	mlx_put_image_to_window(vars.mlx, vars.win, numberImages[8].img, Q.x, P.y);
+	//
+
 	// draw map on screen
-	t_point start_point;
-	draw_map(&map, map_height, images, &start_point, vars);
+	// t_point start_point;
+	// draw_map(&map, map_height, images, &start_point, vars);
 	//
 	
 	// HOOKS
-	int	prev_x;
-	int	prev_y;
-	t_mystruct2	mystruct = {
-		&vars,
-		images,
-		&start_point.x,
-		&start_point.y,
-		&prev_x,
-		&prev_y,
-		map_width,
-		map_height - 2,
-		&map,
-		argv[1]
-	};
-	mlx_hook(vars.win, 17, (1L<<17), exit_clicked, &mystruct);
-	mlx_hook(vars.win, 02, (1L<<0), move_ninja, &mystruct);
+	// int	prev_x;
+	// int	prev_y;
+	// int	move_counter = 0;
+	// t_mystruct2	mystruct = {
+	// 	&vars,
+	// 	images,
+	// 	&start_point,
+	// 	&prev_x,
+	// 	&prev_y,
+	// 	map_width,
+	// 	map_height - 2,
+	// 	&map,
+	// 	argv[1],
+	// 	&move_counter
+	// };
+	// mlx_hook(vars.win, 17, (1L<<17), exit_clicked, &mystruct);
+	// mlx_hook(vars.win, 02, (1L<<0), move_ninja, &mystruct);
 	//
 
 	// to initiate the window rendering, each hook that was registered prior to this will be called accordingly by order of registration
