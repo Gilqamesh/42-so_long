@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 10:02:09 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/13 10:19:10 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/13 14:13:55 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "ft_hooks.h"
 #include "ft_colors.h"
 #include "ft_basic_shapes.h"
+#include "ft_utils.h"
 
 int	key_hook(int keycode, t_vars *vars)
 {
@@ -138,7 +139,8 @@ int		move_circle(int keycode, t_mystruct *mystruct)
 
 int		move_ninja(int keycode, t_mystruct2 *mystruct)
 {
-	int	cur_line_counter;
+	int		cur_line_counter;
+	char	c;
 
 	if (keycode == 53)
 	{
@@ -152,7 +154,16 @@ int		move_ninja(int keycode, t_mystruct2 *mystruct)
 	if (wasd_pressed2(keycode, mystruct->x, mystruct->y, mystruct->prev_x, mystruct->prev_y, mystruct->map_width, mystruct->map_height, mystruct->map))
 	{
 		mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, mystruct->images[5].img, *mystruct->prev_x * CELL_SIZE_W, *mystruct->prev_y * CELL_SIZE_H);
-		mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, mystruct->images[3].img, *mystruct->x * CELL_SIZE_W, *mystruct->y * CELL_SIZE_H);
+		c = *(*((*mystruct->map) + *mystruct->y) + *mystruct->x);
+		if (c == 'C')
+			mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, mystruct->images[5].img, *mystruct->x * CELL_SIZE_W, *mystruct->y * CELL_SIZE_H);
+		if (c == 'E') // end of game condition, then ex. initialize map again
+		{
+			initialize_map(mystruct->map, &mystruct->map_width, &mystruct->map_height, mystruct->filePath);
+			draw_map(mystruct->map, mystruct->map_height, mystruct->images, &(t_point){*mystruct->x, *mystruct->x}, *mystruct->vars);
+		}
+		else
+			mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, mystruct->images[3].img, *mystruct->x * CELL_SIZE_W, *mystruct->y * CELL_SIZE_H);
 	}
 	return (0);
 }

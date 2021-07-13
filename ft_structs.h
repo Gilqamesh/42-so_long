@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 14:00:36 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/12 20:27:30 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/13 14:09:29 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct	s_mystruct2
 	int		map_width;
 	int		map_height;
 	char	***map;
+	char	*filePath;
 	
 }				t_mystruct2;
 

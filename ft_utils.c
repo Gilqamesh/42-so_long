@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 15:39:04 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/13 11:54:33 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/13 14:09:06 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 #include "ft_utils.h"
 #include "mlx/mlx.h"
 #include "ft_error.h"
+#include "gnl/ft_get_next_line.h"
+#include <fcntl.h>
+#include <unistd.h>
 
 void	my_mlx_pixel_put(t_data *data, double x, double y, int color)
 {
@@ -198,5 +201,74 @@ void	validate_map(char ***map, int rows, int cols)
 	{
 		free_map(map, rows);
 		ft_error("no starting position on map");
+	}
+}
+
+void	initialize_map(char ***map, int *map_width, int *map_height, char *filePath)
+{
+	char	*line;
+	int		fd;
+
+	fd = open(filePath, O_RDONLY);
+	if (fd == -1)
+		ft_error("open returned -1 fd");
+	*map_height = 0;
+	if (get_next_line(fd, &line) < 0)
+		ft_error("get_next_line negative return value");
+	*map_width = ft_strlen(line) - 2;
+	while (*line != '\0')
+	{
+		*map = ft_realloc(*map, ++*map_height * sizeof(char *));
+		*(*map + *map_height - 1) = line;
+		if (get_next_line(fd, &line) < 0)
+		{
+			free_map(map, *map_height);
+			ft_error("get_next_line negative return value");
+		}
+		if (*line && (int)ft_strlen(line) - 2 != *map_width)
+		{
+			free_map(map, *map_height);
+			ft_error("map is not rectangular");
+		}
+	}
+	free(line);
+	validate_map(map, *map_height, *map_width + 2);
+	close(fd);
+}
+
+void	draw_map(char ***map, int map_height, t_data *images, t_point *start_point, t_vars vars)
+{
+	
+	int		cur_map_height;
+	int		cur_character;
+	char	cur_cell;
+	t_point	img_offset;
+
+	cur_map_height = 0;
+	while (cur_map_height < map_height)
+	{
+		cur_character = 0;
+		cur_cell = *(*(*map + cur_map_height) + cur_character);
+		while (cur_cell != '\0')
+		{
+			img_offset.x = CELL_SIZE_W * cur_character;
+			img_offset.y = CELL_SIZE_H * cur_map_height;
+			if (cur_cell == '1') // WALL
+				mlx_put_image_to_window(vars.mlx, vars.win, images[0].img, img_offset.x, img_offset.y);
+			else if (cur_cell == '0') // EMPTY SPACE
+				mlx_put_image_to_window(vars.mlx, vars.win, images[1].img, img_offset.x, img_offset.y);
+			else if (cur_cell == 'E') // MAP EXIT
+				mlx_put_image_to_window(vars.mlx, vars.win, images[2].img, img_offset.x, img_offset.y);
+			else if (cur_cell == 'P') // PLAYER
+			{
+				start_point->x = cur_character;
+				start_point->y = cur_map_height;
+				mlx_put_image_to_window(vars.mlx, vars.win, images[3].img, img_offset.x, img_offset.y);
+			}
+			else if (cur_cell == 'C') // COLLECTIBLE 
+				mlx_put_image_to_window(vars.mlx, vars.win, images[4].img, img_offset.x, img_offset.y);
+			cur_cell = *(*(*map + cur_map_height) + ++cur_character);
+		}
+		cur_map_height++;
 	}
 }

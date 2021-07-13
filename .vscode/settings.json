@@ -1,5 +1,6 @@
 {
 	"files.associations": {
-		"ft_basic_shapes.h": "c"
+		"ft_basic_shapes.h": "c",
+		"unistd.h": "c"
 	}
 }
