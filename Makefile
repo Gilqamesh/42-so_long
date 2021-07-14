@@ -6,7 +6,7 @@
 #    By: edavid <edavid@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/07 16:17:01 by edavid            #+#    #+#              #
-#    Updated: 2021/07/13 10:35:34 by edavid           ###   ########.fr        #
+#    Updated: 2021/07/14 18:12:36 by edavid           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ CC = gcc
 OBJ = driver.o ft_basic_shapes.o ft_colors.o ft_utils.o ft_hooks.o ft_testers.o ft_get_next_line.o \
 ft_get_next_line_utils.o ft_error.o
 CFLAGS = -Wall -Wextra -Werror
+BFLAG = -D BONUS
 
 $(NAME): $(OBJ)
 	cd libft && $(MAKE) all
@@ -40,3 +41,6 @@ re:
 all: $(NAME)
 fclean: clean
 	rm -f *.a
+bonus: clean
+bonus: CFLAGS += $(BFLAG)
+bonus: all

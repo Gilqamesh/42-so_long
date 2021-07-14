@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 15:39:04 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/14 15:17:01 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/14 19:44:20 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,7 +217,7 @@ void	initialize_map(char ***map, int *map_width, int *map_height, char *filePath
 	*map_height = 0;
 	if (get_next_line(fd, &line) < 0)
 		ft_error("get_next_line negative return value");
-	*map_width = ft_strlen(line) - 2;
+	*map_width = ft_strlen(line);
 	while (*line != '\0')
 	{
 		*map = ft_realloc(*map, ++*map_height * sizeof(char *));
@@ -227,14 +227,14 @@ void	initialize_map(char ***map, int *map_width, int *map_height, char *filePath
 			free_map(map, *map_height);
 			ft_error("get_next_line negative return value");
 		}
-		if (*line && (int)ft_strlen(line) - 2 != *map_width)
+		if (*line && (int)ft_strlen(line) != *map_width)
 		{
 			free_map(map, *map_height);
 			ft_error("map is not rectangular");
 		}
 	}
 	free(line);
-	validate_map(map, *map_height, *map_width + 2);
+	validate_map(map, *map_height, *map_width);
 	close(fd);
 }
 
@@ -255,6 +255,7 @@ void	draw_map(char ***map, int map_height, t_data *images, t_point *start_point,
 		{
 			img_offset.x = CELL_SIZE_W * cur_character;
 			img_offset.y = CELL_SIZE_H * cur_map_height;
+			mlx_put_image_to_window(vars.mlx, vars.win, images[4].img, img_offset.x, img_offset.y);
 			if (cur_cell == '1') // WALL
 				mlx_put_image_to_window(vars.mlx, vars.win, images[0].img, img_offset.x, img_offset.y);
 			else if (cur_cell == '0') // EMPTY SPACE
@@ -320,9 +321,9 @@ int	pow_int(int base, int exp)
 
 void	print_map(t_mystruct2 *mystruct)
 {
-	for (int y = 0; y < mystruct->map_height + 2; y++)
+	for (int y = 0; y < mystruct->map_height; y++)
 	{
-		for (int x = 0; x < mystruct->map_width + 2; x++)
+		for (int x = 0; x < mystruct->map_width; x++)
 			printf("%c", *(*(*mystruct->map + y) + x));
 		printf("\n");
 	}
@@ -330,9 +331,11 @@ void	print_map(t_mystruct2 *mystruct)
 
 void	reset_map(t_mystruct2 *mystruct)
 {
-	free_map(mystruct->map, mystruct->map_height + 2);
+	free_map(mystruct->map, mystruct->map_height);
 	initialize_map(mystruct->map, &mystruct->map_width, &mystruct->map_height, mystruct->filePath);
 	draw_map(mystruct->map, mystruct->map_height, mystruct->images, mystruct->cur_position, *mystruct->vars, mystruct->playerMovement);
+	#ifdef BONUS
 	number_put(0, 600, 600, mystruct, *mystruct->move_counter);
+	#endif
 	*mystruct->move_counter = 0;
 }

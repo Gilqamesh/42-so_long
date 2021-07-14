@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 16:16:58 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/14 15:19:03 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/14 19:47:29 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int main(int argc, char **argv)
 	images[3] = collectibleImg;
 	images[4] = blankImg;
 	// PLAYER IMAGE
-	t_data	*playerMovement = malloc(8 * sizeof(*playerMovement));
+		t_data	*playerMovement = malloc(8 * sizeof(*playerMovement));
 		for (int i = 0; i < 8; i++)
 		{
 			int	playerImgWidth, playerImgHeight;
@@ -158,6 +158,7 @@ int main(int argc, char **argv)
 	int	prev_x;
 	int	prev_y;
 	int	move_counter = 0;
+	int	need_reset = 0;
 	t_mystruct2	mystruct = {
 		&vars,
 		images,
@@ -166,16 +167,21 @@ int main(int argc, char **argv)
 		&start_point,
 		&prev_x,
 		&prev_y,
-		map_width, // also wrong, in initialize map its 2 less
-		map_height - 2, // fix this to pass in map_height
+		map_width,
+		map_height,
 		&map,
 		argv[1],
-		&move_counter
+		&move_counter,
+		&need_reset
 	};
+	#ifdef BONUS
 	number_put(0, 600, 600, &mystruct, 0);
+	#endif
 	mlx_hook(vars.win, 17, (1L<<17), exit_clicked, &mystruct);
 	mlx_hook(vars.win, 02, (1L<<0), move_ninja, &mystruct);
+	#ifdef BONUS
 	mlx_loop_hook(vars.mlx, patrol_enemy, &mystruct);
+	#endif
 	//
 
 	// to initiate the window rendering, each hook that was registered prior to this will be called accordingly by order of registration

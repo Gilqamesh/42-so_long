@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 14:00:36 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/14 14:24:25 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/14 19:48:10 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct	s_mystruct2
 	char	***map;
 	char	*filePath;
 	int		*move_counter;
+	int		*need_reset;
 }				t_mystruct2;
 
 typedef struct	s_rgba
