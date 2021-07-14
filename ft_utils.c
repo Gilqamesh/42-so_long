@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 15:39:04 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/14 14:34:47 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/14 15:17:01 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ void	free_map(char ***map, int n_of_pointers)
 	while (n_of_pointers--)
 		free(*(*map + n_of_pointers));
 	free(*map);
+	*map = 0;
 }
 
 void	validate_map(char ***map, int rows, int cols)
@@ -329,6 +330,7 @@ void	print_map(t_mystruct2 *mystruct)
 
 void	reset_map(t_mystruct2 *mystruct)
 {
+	free_map(mystruct->map, mystruct->map_height + 2);
 	initialize_map(mystruct->map, &mystruct->map_width, &mystruct->map_height, mystruct->filePath);
 	draw_map(mystruct->map, mystruct->map_height, mystruct->images, mystruct->cur_position, *mystruct->vars, mystruct->playerMovement);
 	number_put(0, 600, 600, mystruct, *mystruct->move_counter);

@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 10:02:09 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/14 14:44:01 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/14 15:22:04 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,7 @@ int		move_ninja(int keycode, t_mystruct2 *mystruct)
 		{
 			reset_map(mystruct);
 			movement_state = 0;
+			return (0);
 		}
 		else
 		{
@@ -308,6 +309,12 @@ static void	get_next_position(t_mystruct2 *mystruct, t_point *current_position, 
 	// printf("new position: %d %d\n\n", current_position->x, current_position->y);
 }
 
+static void	initialize_vars(t_point **enemy_positions, t_point **enemy_previous_positions,
+int *number_of_enemies)
+{
+	
+}
+
 int	patrol_enemy(t_mystruct2 *mystruct)
 {
 	static t_point	*enemy_positions;
@@ -335,14 +342,12 @@ int	patrol_enemy(t_mystruct2 *mystruct)
 			get_next_position(mystruct, enemy_positions + i, enemy_previous_positions + i);
 			//printf("enemy %d position: %d %d\n", i, enemy_positions[i].x, enemy_positions[i].y);
 			// set new position on map
-			printf("y x: %d %d %c\n", enemy_positions[i].y, enemy_positions[i].x, *(*(*mystruct->map + enemy_positions[i].y) + enemy_positions[i].x));
 			if (*(*(*mystruct->map + enemy_positions[i].y) + enemy_positions[i].x) == 'P') // game over
 			{
-				printf("????");
 				free(enemy_positions);
 				free(enemy_previous_positions);
-				enemy_positions = (t_point *)0;
-				enemy_previous_positions = (t_point *)0;
+				enemy_positions = 0;
+				enemy_previous_positions = 0;
 				number_of_calls = 0;
 				number_of_enemies = 0;
 				reset_map(mystruct);
