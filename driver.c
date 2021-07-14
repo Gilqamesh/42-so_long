@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 16:16:58 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/13 19:59:47 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/14 11:58:31 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ int main(int argc, char **argv)
 		&start_point,
 		&prev_x,
 		&prev_y,
-		map_width,
+		map_width, // also wrong, in initialize map its 2 less
 		map_height - 2, // fix this to pass in map_height
 		&map,
 		argv[1],

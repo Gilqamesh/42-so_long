@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 10:02:09 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/13 20:51:28 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/14 12:26:19 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,9 +231,9 @@ static int	count_collectibles(t_mystruct2 *mystruct)
 	int	counter;
 
 	counter = 0;
-	for (int y = 0; y < mystruct->map_height; y++)
+	for (int y = 0; y < mystruct->map_height + 2; y++)
 		for (int x = 0; x < mystruct->map_width + 2; x++)
-			if (*(*(*mystruct->map) + y) + x == 'C')
+			if (*(*(*mystruct->map + y) + x) == 'C')
 				counter++;
 	return (counter);
 }
@@ -244,9 +244,9 @@ static void	initialize_positions(t_mystruct2 *mystruct, t_point **positions, int
 
 	*positions = malloc(number_of_enemies * sizeof(**positions));
 	cur_index = 0;
-	for (int y = 0; y < mystruct->map_height; y++)
+	for (int y = 0; y < mystruct->map_height + 2; y++)
 		for (int x = 0; x < mystruct->map_width + 2; x++)
-			if (*(*((*mystruct->map) + y) + x) == 'C')
+			if (*(*(*mystruct->map + y) + x) == 'C')
 				*(*positions + cur_index++) = (t_point){x, y};
 }
 
@@ -267,48 +267,68 @@ static void	get_next_position(t_mystruct2 *mystruct, t_point *current_position, 
 		{DOWN_CHAR, "down_char", 0},
 		{RIGHT_CHAR, "right_char", 0}
 	};
+	t_node	*cur_node;
 	int		i;
-	t_node	cur_char;
 
 	neighbour_chars[0].next = &neighbour_chars[1];
 	neighbour_chars[1].next = &neighbour_chars[2];
 	neighbour_chars[2].next = &neighbour_chars[3];
 	neighbour_chars[3].next = &neighbour_chars[0];
+	i = -1;
+	//printf("%c %c %c %c\n", UP_CHAR, LEFT_CHAR, DOWN_CHAR, RIGHT_CHAR);
 	if (IS_MOVING_UP)
-	{
-		i = -1;
-		while (++i < 4 && neighbour_chars[i] != '1') // while we dont hit a wall
-		{
-		}
-	}
-	else if (IS_MOVING_UP)
+		cur_node = &neighbour_chars[0];
+	else if (IS_MOVING_LEFT)
+		cur_node = &neighbour_chars[1];
 	else if (IS_MOVING_DOWN)
+		cur_node = &neighbour_chars[2];
 	else if (IS_MOVING_RIGHT)
+		cur_node = &neighbour_chars[3];
+	while (++i < 4 && cur_node->value == '1')
+			cur_node = cur_node->next;
+	if (i != 4) // in not in-between 4 walls
+	{
+		current_position->x += i % 2 * pow_int(-1, i % 3);
+		current_position->y += (i + 1) % 2 * pow_int(-1, (i + 1) % 3);
+	}
 	*previous_position = *current_position;
 }
 
 int	patrol_enemy(t_mystruct2 *mystruct)
 {
-	t_point		*enemy_positions;
-	t_point 	*enemy_previous_positions;
-	int			number_of_enemies;
-	static int	number_of_calls;
+	t_point			*enemy_positions;
+	static t_point	*enemy_previous_positions;
+	int				number_of_enemies;
+	static int		number_of_calls;
 
 	number_of_enemies = count_collectibles(mystruct);
 	initialize_positions(mystruct, &enemy_positions, number_of_enemies);
-	enemy_previous_positions = malloc(number_of_enemies * sizeof(*enemy_previous_positions));
-	if (!number_of_calls) // initialize previous_positions
-		for (int i = 0; i < number_of_enemies; i++)
-			enemy_previous_positions[i] = (t_point){
-				enemy_positions[i].x,
-				enemy_positions[i].y - 1 // by default they should be moving up
-			};
-	for (int i = 0; i < number_of_enemies; i++)
+	if (!enemy_previous_positions) // initialize previous_positions
 	{
-		get_next_position(mystruct, enemy_positions + i, enemy_previous_positions + i);
-		// set new position on map
-		// draw changes
+		enemy_previous_positions = malloc(number_of_enemies * sizeof(*enemy_previous_positions));
+		for (int i = 0; i < number_of_enemies; i++)
+		{
+			enemy_previous_positions[i].x = enemy_positions[i].x;
+			enemy_previous_positions[i].y = enemy_positions[i].y + 1;
+		}
+	}
+	if (number_of_calls == 9999)
+	{
+		for (int i = 0; i < number_of_enemies; i++)
+		{
+			// set next and previous positions in vars
+			get_next_position(mystruct, enemy_positions + i, enemy_previous_positions + i);
+			//printf("enemy %d position: %d %d\n", i, enemy_positions[i].x, enemy_positions[i].y);
+			// set new position on map
+			// *(*(*mystruct->map + enemy_previous_positions[i].y) + enemy_previous_positions[i].x) = '0';
+			// *(*(*mystruct->map + enemy_positions[i].y) + enemy_positions[i].x) = 'C';
+			// draw changes
+		}
+		// print_map(mystruct);
+		// printf("\n\n");
 	}
 	number_of_calls++;
+	if (number_of_calls == 10000)
+		number_of_calls = 0;
 	return (0);
 }

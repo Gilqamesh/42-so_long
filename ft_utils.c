@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 15:39:04 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/13 19:33:35 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/14 12:22:15 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -304,4 +304,25 @@ void	number_put(int n, int x, int y, t_mystruct2 *mystruct, int previous_n)
 		mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (mystruct->numberImages + str[i] - '0')->img, x + i * 55, y);
 	free(str);
 	free(previous_str);
+}
+
+int	pow_int(int base, int exp)
+{
+	if (exp < 0)
+		exp *= -1;
+	if (base == 0)
+		return (0);
+	if (exp == 0)
+		return (1);
+	return (base * pow_int(base, exp - 1));
+}
+
+void	print_map(t_mystruct2 *mystruct)
+{
+	for (int y = 0; y < mystruct->map_height + 2; y++)
+	{
+		for (int x = 0; x < mystruct->map_width + 2; x++)
+			printf("%c", *(*(*mystruct->map + y) + x));
+		printf("\n");
+	}
 }
