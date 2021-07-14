@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 15:37:24 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/14 12:22:25 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/14 14:16:08 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,6 @@ t_data	get_blank_image(void *mlx_ptr, int width, int height);
 void	number_put(int n, int x, int y, t_mystruct2 *mystruct, int previous_n);
 int		pow_int(int base, int exp);
 void	print_map(t_mystruct2 *mystruct);
+void	reset_map(t_mystruct2 *mystruct);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 16:16:58 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/14 11:58:31 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/14 14:44:57 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,8 +174,8 @@ int main(int argc, char **argv)
 	};
 	number_put(0, 600, 600, &mystruct, 0);
 	mlx_hook(vars.win, 17, (1L<<17), exit_clicked, &mystruct);
-	mlx_hook(vars.win, 02, (1L<<0), move_ninja, &mystruct);
 	mlx_loop_hook(vars.mlx, patrol_enemy, &mystruct);
+	mlx_hook(vars.win, 02, (1L<<0), move_ninja, &mystruct);
 	//
 
 	// to initiate the window rendering, each hook that was registered prior to this will be called accordingly by order of registration

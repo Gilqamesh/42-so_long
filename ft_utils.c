@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 15:39:04 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/14 12:22:15 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/14 14:34:47 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -325,4 +325,12 @@ void	print_map(t_mystruct2 *mystruct)
 			printf("%c", *(*(*mystruct->map + y) + x));
 		printf("\n");
 	}
+}
+
+void	reset_map(t_mystruct2 *mystruct)
+{
+	initialize_map(mystruct->map, &mystruct->map_width, &mystruct->map_height, mystruct->filePath);
+	draw_map(mystruct->map, mystruct->map_height, mystruct->images, mystruct->cur_position, *mystruct->vars, mystruct->playerMovement);
+	number_put(0, 600, 600, mystruct, *mystruct->move_counter);
+	*mystruct->move_counter = 0;
 }
