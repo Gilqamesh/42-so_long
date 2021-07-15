@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 15:35:20 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/12 14:13:41 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/15 14:32:17 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 
 # include "ft_structs.h"
 
-extern t_node	mlx_red;
-extern t_node	mlx_purple;
-extern t_node	mlx_blue;
-extern t_node	mlx_cyan;
-extern t_node	mlx_green;
-extern t_node	mlx_yellow;
-extern t_node	mlx_white;
-extern t_node	mlx_black;
+extern t_node	g_mlx_red;
+extern t_node	g_mlx_purple;
+extern t_node	g_mlx_blue;
+extern t_node	g_mlx_cyan;
+extern t_node	g_mlx_green;
+extern t_node	g_mlx_yellow;
+extern t_node	g_mlx_white;
+extern t_node	g_mlx_black;
 
 void	init_rainbow(void);
 t_rgba	hex_to_rgba(int hex);

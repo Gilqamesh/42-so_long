@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 15:39:04 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/14 19:44:20 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/15 14:49:37 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,18 +103,18 @@ double	min_of_3(double a, double b, double c)
 	}
 }
 
-void	resize_img(t_vars vars, t_data *img, int old_width, int old_height, int new_width, int new_height)
+void	resize_img(t_vars vars, t_data *img, t_point old_params, t_point new_params)
 {
 	t_data	new_img;
 	double	ratio_w;
 	double	ratio_h;
 
-	ratio_w = (double)new_width / old_width;
-	ratio_h = (double)new_height / old_height;
-	new_img.img = mlx_new_image(vars.mlx, new_width, new_height);
+	ratio_w = (double)new_params.x / old_params.x;
+	ratio_h = (double)new_params.y / old_params.y;
+	new_img.img = mlx_new_image(vars.mlx, new_params.x, new_params.y);
 	new_img.addr = mlx_get_data_addr(new_img.img, &new_img.bits_per_pixel, &new_img.line_length, &new_img.endian);
-	for (int y = 0; y < old_height; y++)
-		for (int x = 0; x < old_width; x++)
+	for (int y = 0; y < old_params.y; y++)
+		for (int x = 0; x < old_params.x; x++)
 			my_mlx_pixel_put(&new_img, x * ratio_w, y * ratio_h, *(int *)(img->addr + y * img->line_length + x * (img->bits_per_pixel / 8)));
 	mlx_destroy_image(vars.mlx, img->img);
 	*img = new_img;
@@ -238,7 +238,7 @@ void	initialize_map(char ***map, int *map_width, int *map_height, char *filePath
 	close(fd);
 }
 
-void	draw_map(char ***map, int map_height, t_data *images, t_point *start_point, t_vars vars, t_data *playerMovement)
+void	draw_map(t_mystruct2 *mystruct)
 {
 	
 	int		cur_map_height;
@@ -247,30 +247,30 @@ void	draw_map(char ***map, int map_height, t_data *images, t_point *start_point,
 	t_point	img_offset;
 
 	cur_map_height = 0;
-	while (cur_map_height < map_height)
+	while (cur_map_height < mystruct->map_height)
 	{
 		cur_character = 0;
-		cur_cell = *(*(*map + cur_map_height) + cur_character);
+		cur_cell = *(*(*mystruct->map + cur_map_height) + cur_character);
 		while (cur_cell != '\0')
 		{
 			img_offset.x = CELL_SIZE_W * cur_character;
 			img_offset.y = CELL_SIZE_H * cur_map_height;
-			mlx_put_image_to_window(vars.mlx, vars.win, images[4].img, img_offset.x, img_offset.y);
+			mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (mystruct->images + 4)->img, img_offset.x, img_offset.y);
 			if (cur_cell == '1') // WALL
-				mlx_put_image_to_window(vars.mlx, vars.win, images[0].img, img_offset.x, img_offset.y);
+				mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, mystruct->images->img, img_offset.x, img_offset.y);
 			else if (cur_cell == '0') // EMPTY SPACE
-				mlx_put_image_to_window(vars.mlx, vars.win, images[1].img, img_offset.x, img_offset.y);
+				mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (mystruct->images + 1)->img, img_offset.x, img_offset.y);
 			else if (cur_cell == 'E') // MAP EXIT
-				mlx_put_image_to_window(vars.mlx, vars.win, images[2].img, img_offset.x, img_offset.y);
+				mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (mystruct->images + 2)->img, img_offset.x, img_offset.y);
 			else if (cur_cell == 'P') // PLAYER
 			{
-				start_point->x = cur_character;
-				start_point->y = cur_map_height;
-				mlx_put_image_to_window(vars.mlx, vars.win, playerMovement->img, img_offset.x, img_offset.y);
+				mystruct->cur_position->x = cur_character;
+				mystruct->cur_position->y = cur_map_height;
+				mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, mystruct->playerMovement->img, img_offset.x, img_offset.y);
 			}
 			else if (cur_cell == 'C') // COLLECTIBLE 
-				mlx_put_image_to_window(vars.mlx, vars.win, images[3].img, img_offset.x, img_offset.y);
-			cur_cell = *(*(*map + cur_map_height) + ++cur_character);
+				mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (mystruct->images + 3)->img, img_offset.x, img_offset.y);
+			cur_cell = *(*(*mystruct->map + cur_map_height) + ++cur_character);
 		}
 		cur_map_height++;
 	}
@@ -284,11 +284,11 @@ t_data	get_blank_image(void *mlx_ptr, int width, int height)
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 	for (int y = 0; y < height; y++)
 		for (int x = 0; x < width; x++)
-			my_mlx_pixel_put(&img, x, y, mlx_black.value);
+			my_mlx_pixel_put(&img, x, y, g_mlx_black.value);
 	return (img);
 }
 
-void	number_put(int n, int x, int y, t_mystruct2 *mystruct, int previous_n)
+void	number_put(int n, t_point coords, t_mystruct2 *mystruct, int previous_n)
 {
 	char	*str;
 	char	*previous_str;
@@ -300,10 +300,10 @@ void	number_put(int n, int x, int y, t_mystruct2 *mystruct, int previous_n)
 	len = ft_strlen(previous_str);
 	i = -1;
 	while (++i < len)
-		mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (mystruct->numberImages + 10)->img, x + i * 55, y);
+		mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (mystruct->numberImages + 10)->img, coords.x + i * 55, coords.y);
 	i = -1;
 	while (str[++i])
-		mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (mystruct->numberImages + str[i] - '0')->img, x + i * 55, y);
+		mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (mystruct->numberImages + str[i] - '0')->img, coords.x + i * 55, coords.y);
 	free(str);
 	free(previous_str);
 }
@@ -333,9 +333,9 @@ void	reset_map(t_mystruct2 *mystruct)
 {
 	free_map(mystruct->map, mystruct->map_height);
 	initialize_map(mystruct->map, &mystruct->map_width, &mystruct->map_height, mystruct->filePath);
-	draw_map(mystruct->map, mystruct->map_height, mystruct->images, mystruct->cur_position, *mystruct->vars, mystruct->playerMovement);
+	draw_map(mystruct);
 	#ifdef BONUS
-	number_put(0, 600, 600, mystruct, *mystruct->move_counter);
+	number_put(0, (t_point){600, 600}, mystruct, *mystruct->move_counter);
 	#endif
 	*mystruct->move_counter = 0;
 }

@@ -1,0 +1,6 @@
+extra_stuff/
+a.out
+*.o
+*.a
+libft/*.o
+libft/*.a

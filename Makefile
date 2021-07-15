@@ -6,13 +6,13 @@
 #    By: edavid <edavid@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/07 16:17:01 by edavid            #+#    #+#              #
-#    Updated: 2021/07/14 18:12:36 by edavid           ###   ########.fr        #
+#    Updated: 2021/07/15 14:28:15 by edavid           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = a.out
 CC = gcc
-OBJ = driver.o ft_basic_shapes.o ft_colors.o ft_utils.o ft_hooks.o ft_testers.o ft_get_next_line.o \
+OBJ = driver.o ft_colors.o ft_utils.o ft_hooks.o ft_get_next_line.o \
 ft_get_next_line_utils.o ft_error.o
 CFLAGS = -Wall -Wextra -Werror
 BFLAG = -D BONUS
@@ -35,12 +35,14 @@ ft_get_next_line_utils.o: gnl/ft_get_next_line_utils.c gnl/ft_get_next_line.h
 .PHONY: all clean fclean re bonus
 clean:
 	rm -f *.o a.out
+	cd libft && rm -f *.o a.out 
 re:
 	make clean
 	make all
 all: $(NAME)
 fclean: clean
 	rm -f *.a
+	cd libft && rm -f *.a
 bonus: clean
 bonus: CFLAGS += $(BFLAG)
 bonus: all
