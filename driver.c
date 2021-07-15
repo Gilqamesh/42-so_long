@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 16:16:58 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/15 16:14:31 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/15 19:58:33 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ static void	initialize_images(t_mystruct *mystruct)
 			// mlx_put_image_to_window(vars.mlx, vars.win, (playerMovement + i)->img, 10 + i * 80, 10);
 		}
 	//
-	//
 
 	// get number images
 	int		numberIndex;
@@ -125,29 +124,16 @@ static void	initialize_images(t_mystruct *mystruct)
 
 }
 
-int main(int argc, char **argv)
+static void	initialize_struct(t_mystruct *mystruct)
 {
-	char		**map;
-	int			map_height;
-	int			map_width;
-	t_mystruct	mystruct;
-	t_point 	start_point;
-	int			prev_x;
-	int			prev_y;
-	int			move_counter;
-	int			need_reset;
-	t_images	all_images;
 	t_data		img;
 	t_data		*images;
 	t_data		*numberImages;
+	t_images	all_images;
 	t_data		*playerMovement;
-	t_vars		vars;
 
-	if (argc != 2)
-		ft_error("usage: a.out filepath");
-	initialize_map(&map, &map_width, &map_height, argv[1]);
-	vars.mlx = mlx_init();
-	vars.win = mlx_new_window(vars.mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "so_long");
+	img.img = mlx_new_image(mystruct->vars->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 	images = malloc(6 * sizeof(*images));
 	numberImages = malloc(11 * sizeof(*numberImages));
 	playerMovement = malloc(8 * sizeof(*playerMovement));
@@ -157,32 +143,64 @@ int main(int argc, char **argv)
 		&numberImages,
 		&playerMovement
 	};
+	mystruct->all_images = &all_images;
+}
+
+static void initialize_struct2(t_mystruct *mystruct)
+{
+	t_vars		vars;
+	int			move_counter;
+	int			need_reset;
+	int			map_height;
+	int			map_width;
+
+	vars.mlx = mlx_init();
+	vars.win = mlx_new_window(vars.mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "so_long");
 	move_counter = 0;
 	need_reset = 0;
-	mystruct = (t_mystruct){
-		&vars,
-		&all_images,
-		playerMovement,
-		&start_point,
-		&prev_x,
-		&prev_y,
-		map_width,
-		map_height,
-		&map,
-		argv[1],
-		&move_counter,
-		&need_reset
-	};
+	map_height = 0;
+	map_width = 0;
+	mystruct->vars = &vars;
+	mystruct->move_counter = &move_counter;
+	mystruct->need_reset = &need_reset;
+	mystruct->map_height = map_height;
+	mystruct->map_width = map_width;
+}
+
+static void	initialize_struct3(t_mystruct *mystruct)
+{
+	t_point 	cur_position;
+	int			prev_x;
+	char		**map;
+	int			prev_y;
+
+	mystruct->cur_position = &cur_position;
+	mystruct->prev_x = &prev_x;
+	mystruct->prev_y = &prev_y;
+	mystruct->map = &map;
+}
+
+int main(int argc, char **argv)
+{
+	t_mystruct	mystruct;
+
+	if (argc != 2)
+		ft_error("usage: a.out filepath");
+	mystruct.filePath = argv[1];
+	initialize_struct3(&mystruct);
+	initialize_struct2(&mystruct);
+	initialize_struct(&mystruct);
+	initialize_map(&mystruct);
 	initialize_images(&mystruct);
 	draw_map(&mystruct);
 	#ifdef BONUS
 	number_put(0, (t_point){600, 600}, &mystruct, 0);
 	#endif
-	mlx_hook(vars.win, 17, (1L<<17), exit_clicked, &mystruct);
-	mlx_hook(vars.win, 02, (1L<<0), move_ninja, &mystruct);
+	mlx_hook(mystruct.vars->win, 17, (1L<<17), exit_clicked, &mystruct);
+	mlx_hook(mystruct.vars->win, 02, (1L<<0), move_ninja, &mystruct);
 	#ifdef BONUS
 	mlx_loop_hook(vars.mlx, patrol_enemy, &mystruct);
 	#endif
-	mlx_loop(vars.mlx);
+	mlx_loop(mystruct.vars->mlx);
 	return (0);
 }

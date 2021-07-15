@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 15:39:04 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/15 15:11:19 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/15 19:32:56 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,35 +206,39 @@ void	validate_map(char ***map, int rows, int cols)
 	}
 }
 
-void	initialize_map(char ***map, int *map_width, int *map_height, char *filePath)
+void	initialize_map(t_mystruct *mystruct)
 {
 	char	*line;
 	int		fd;
 
-	fd = open(filePath, O_RDONLY);
+	fd = open(mystruct->filePath, O_RDONLY);
 	if (fd == -1)
 		ft_error("open returned -1 fd");
-	*map_height = 0;
+	mystruct->map_height = 0;
 	if (get_next_line(fd, &line) < 0)
 		ft_error("get_next_line negative return value");
-	*map_width = ft_strlen(line);
+	mystruct->map_width = ft_strlen(line);
+	*mystruct->map = malloc(++mystruct->map_height * sizeof(char *));
+	*(*mystruct->map + mystruct->map_height - 1) = line;
 	while (*line != '\0')
 	{
-		*map = ft_realloc(*map, ++*map_height * sizeof(char *));
-		*(*map + *map_height - 1) = line;
 		if (get_next_line(fd, &line) < 0)
 		{
-			free_map(map, *map_height);
+			free_map(mystruct->map, mystruct->map_height);
 			ft_error("get_next_line negative return value");
 		}
-		if (*line && (int)ft_strlen(line) != *map_width)
+		if (*line && (int)ft_strlen(line) != mystruct->map_width)
 		{
-			free_map(map, *map_height);
+			free_map(mystruct->map, mystruct->map_height);
 			ft_error("map is not rectangular");
 		}
+		if (*line == '\0')
+			break ;
+		*mystruct->map = ft_realloc(*mystruct->map, ++mystruct->map_height * sizeof(char *));
+		*(*mystruct->map + mystruct->map_height - 1) = line;
 	}
 	free(line);
-	validate_map(map, *map_height, *map_width);
+	validate_map(mystruct->map, mystruct->map_height, mystruct->map_width);
 	close(fd);
 }
 
@@ -332,7 +336,7 @@ void	print_map(t_mystruct *mystruct)
 void	reset_map(t_mystruct *mystruct)
 {
 	free_map(mystruct->map, mystruct->map_height);
-	initialize_map(mystruct->map, &mystruct->map_width, &mystruct->map_height, mystruct->filePath);
+	initialize_map(mystruct);
 	draw_map(mystruct);
 	#ifdef BONUS
 	number_put(0, (t_point){600, 600}, mystruct, *mystruct->move_counter);
