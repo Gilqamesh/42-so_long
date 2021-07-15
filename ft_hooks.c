@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 10:02:09 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/15 14:50:03 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/15 15:11:19 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static int	all_collected(char ***map, int width, int height)
 }
 #endif
 
-int		move_ninja(int keycode, t_mystruct2 *mystruct)
+int		move_ninja(int keycode, t_mystruct *mystruct)
 {
 	int			cur_line_counter;
 	char		cur_c;
@@ -97,20 +97,20 @@ int		move_ninja(int keycode, t_mystruct2 *mystruct)
 		while (cur_line_counter < mystruct->map_height)
 			free(*(*mystruct->map + cur_line_counter++));
 		free(*mystruct->map);
-		free(mystruct->images);
-		free(mystruct->numberImages);
+		free(*mystruct->all_images->images);
+		free(*mystruct->all_images->numberImages);
 		exit(EXIT_SUCCESS);
 	}
 	if (wasd_pressed2(keycode, mystruct->cur_position, mystruct->prev_x, mystruct->prev_y, mystruct->map_width, mystruct->map_height, mystruct->map, mystruct->move_counter))
 	{
 		cur_c = *(*(*mystruct->map + mystruct->cur_position->y) + mystruct->cur_position->x);
 		prev_c = *(*(*mystruct->map + *mystruct->prev_y) + *mystruct->prev_x);
-		mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, mystruct->images[4].img, *mystruct->prev_x * CELL_SIZE_W, *mystruct->prev_y * CELL_SIZE_H);
+		mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (*mystruct->all_images->images + 4)->img, *mystruct->prev_x * CELL_SIZE_W, *mystruct->prev_y * CELL_SIZE_H);
 		if (prev_c == 'Q')
-			mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, mystruct->images[2].img, *mystruct->prev_x * CELL_SIZE_W, *mystruct->prev_y * CELL_SIZE_H);
+			mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (*mystruct->all_images->images + 2)->img, *mystruct->prev_x * CELL_SIZE_W, *mystruct->prev_y * CELL_SIZE_H);
 		if (cur_c == 'C')
 		{
-			mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, mystruct->images[4].img, mystruct->cur_position->x * CELL_SIZE_W, mystruct->cur_position->y * CELL_SIZE_H);
+			mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (*mystruct->all_images->images + 4)->img, mystruct->cur_position->x * CELL_SIZE_W, mystruct->cur_position->y * CELL_SIZE_H);
 			*(*((*mystruct->map) + *mystruct->prev_y) + *mystruct->prev_x) = '0';
 			*(*((*mystruct->map) + mystruct->cur_position->y) + mystruct->cur_position->x) = 'P';
 		}
@@ -151,7 +151,7 @@ int		move_ninja(int keycode, t_mystruct2 *mystruct)
 	return (0);
 }
 
-int	exit_clicked(t_mystruct2 *mystruct)
+int	exit_clicked(t_mystruct *mystruct)
 {
 	int	cur_line_counter;
 
@@ -160,12 +160,12 @@ int	exit_clicked(t_mystruct2 *mystruct)
 	while (cur_line_counter < mystruct->map_height)
 		free(*(*mystruct->map + cur_line_counter++));
 	free(*mystruct->map);
-	free(mystruct->images);
-	free(mystruct->numberImages);
+	free(*mystruct->all_images->images);
+	free(*mystruct->all_images->numberImages);
 	exit(EXIT_SUCCESS);
 }
 
-static int	count_collectibles(t_mystruct2 *mystruct)
+static int	count_collectibles(t_mystruct *mystruct)
 {
 	int	counter;
 
@@ -177,7 +177,7 @@ static int	count_collectibles(t_mystruct2 *mystruct)
 	return (counter);
 }
 
-static void	initialize_positions(t_mystruct2 *mystruct, t_point **positions, int number_of_enemies)
+static void	initialize_positions(t_mystruct *mystruct, t_point **positions, int number_of_enemies)
 {
 	int	cur_index;
 
@@ -200,7 +200,7 @@ static void	initialize_positions(t_mystruct2 *mystruct, t_point **positions, int
 
 // remember last move, cant go back
 // each step check for previous move in linked list if it can be made
-static void	get_next_position(t_mystruct2 *mystruct, t_point *current_position, t_point *previous_position)
+static void	get_next_position(t_mystruct *mystruct, t_point *current_position, t_point *previous_position)
 {
 	t_node	neighbour_chars[4] = {
 		{UP_CHAR, "up_char", 0},
@@ -252,7 +252,7 @@ static void	get_next_position(t_mystruct2 *mystruct, t_point *current_position, 
 	// printf("new position: %d %d\n\n", current_position->x, current_position->y);
 }
 
-static void	get_exit_coords(t_mystruct2 *mystruct, t_point *exit)
+static void	get_exit_coords(t_mystruct *mystruct, t_point *exit)
 {
 	for (int y = 0; y < mystruct->map_height; y++)
 		for (int x = 0; x < mystruct->map_width; x++)
@@ -265,7 +265,7 @@ static void	get_exit_coords(t_mystruct2 *mystruct, t_point *exit)
 }
 
 static void	initialize_vars(t_point **enemy_positions, t_point **enemy_previous_positions,
-int *number_of_enemies, t_point *exit, t_mystruct2 *mystruct)
+int *number_of_enemies, t_point *exit, t_mystruct *mystruct)
 {
 	get_exit_coords(mystruct, exit);
 	*number_of_enemies = count_collectibles(mystruct);
@@ -278,7 +278,7 @@ int *number_of_enemies, t_point *exit, t_mystruct2 *mystruct)
 	}
 }
 
-int	patrol_enemy(t_mystruct2 *mystruct)
+int	patrol_enemy(t_mystruct *mystruct)
 {
 	static t_point	exit;
 	static t_point	*enemy_positions;
@@ -308,14 +308,14 @@ int	patrol_enemy(t_mystruct2 *mystruct)
 			else
 				*(*(*mystruct->map + enemy_positions[i].y) + enemy_positions[i].x) = 'C';
 			// draw changes
-			mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (mystruct->images + 4)->img,
+			mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (*mystruct->all_images->images + 4)->img,
 				(enemy_previous_positions + i)->x * CELL_SIZE_W, (enemy_previous_positions + i)->y * CELL_SIZE_W);
 		}
 		// draw exit again
 		*(*(*mystruct->map + exit.y) + exit.x) = 'E';
-		mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (mystruct->images + 2)->img, exit.x * CELL_SIZE_W, exit.y * CELL_SIZE_H);
+		mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (*mystruct->all_images->images + 2)->img, exit.x * CELL_SIZE_W, exit.y * CELL_SIZE_H);
 		for (int i = 0; i < number_of_enemies; i++) // draw new position of all
-			mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (mystruct->images + 3)->img,
+			mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (*mystruct->all_images->images + 3)->img,
 				(enemy_positions + i)->x * CELL_SIZE_W, (enemy_positions + i)->y * CELL_SIZE_W);
 		// print_map(mystruct);
 		// printf("\n\n");

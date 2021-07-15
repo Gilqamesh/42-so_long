@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 15:37:24 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/15 14:50:43 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/15 15:11:19 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ void	free_map(char ***map, int n_of_pointers);
 void	validate_map(char ***map, int rows, int cols);
 void	initialize_map(char ***map, int *map_width, int *map_height,
 			char *filePath);
-void	draw_map(t_mystruct2 *mystruct);
+void	draw_map(t_mystruct *mystruct);
 t_data	get_blank_image(void *mlx_ptr, int width, int height);
-void	number_put(int n, t_point coords, t_mystruct2 *mystruct,
+void	number_put(int n, t_point coords, t_mystruct *mystruct,
 			int previous_n);
 int		pow_int(int base, int exp);
-void	print_map(t_mystruct2 *mystruct);
-void	reset_map(t_mystruct2 *mystruct);
+void	print_map(t_mystruct *mystruct);
+void	reset_map(t_mystruct *mystruct);
 
 #endif

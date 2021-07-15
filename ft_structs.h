@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 14:00:36 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/15 14:10:47 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/15 15:35:55 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,32 +36,29 @@ typedef struct s_vars
 	void	*win;
 }	t_vars;
 
+typedef struct s_images
+{
+	t_data	*img;
+	t_data	**images;
+	t_data	**numberImages;
+	t_data	**playerMovement;
+}	t_images;
+
 typedef struct s_mystruct
 {
-	t_vars	*vars;
-	t_data	*img;
-	int		*x;
-	int		*y;
-	int		*prev_x;
-	int		*prev_y;
+	t_vars		*vars;
+	t_images	*all_images;
+	t_data		*playerMovement;
+	t_point		*cur_position;
+	int			*prev_x;
+	int			*prev_y;
+	int			map_width;
+	int			map_height;
+	char		***map;
+	char		*filePath;
+	int			*move_counter;
+	int			*need_reset;
 }	t_mystruct;
-
-typedef struct s_mystruct2
-{
-	t_vars	*vars;
-	t_data	*images;
-	t_data	*numberImages;
-	t_data	*playerMovement;
-	t_point	*cur_position;
-	int		*prev_x;
-	int		*prev_y;
-	int		map_width;
-	int		map_height;
-	char	***map;
-	char	*filePath;
-	int		*move_counter;
-	int		*need_reset;
-}	t_mystruct2;
 
 typedef struct s_rgba
 {
