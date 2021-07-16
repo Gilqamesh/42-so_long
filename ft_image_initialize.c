@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include "mlx/mlx.h"
+#include "mlx_linux/mlx.h"
 #include "ft_image_initialize.h"
 #include "ft_utils.h"
 #include "ft_structs.h"

@@ -12,7 +12,6 @@
 
 #include "ft_get_next_line.h"
 #include <unistd.h>
-#include <limits.h>
 
 static int	reset_ret(char **line, int ret, char **buf_p)
 {
@@ -57,7 +56,7 @@ int	get_next_line(int fd, char **line)
 {
 	int				tmp_index;
 	int				buf_len;
-	static char		*buffers[OPEN_MAX] = {0};
+	static char		*buffers[4096] = {0};
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || !line)
 		return (-1);

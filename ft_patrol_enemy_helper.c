@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mlx/mlx.h"
+#include "mlx_linux/mlx.h"
 #include "ft_utils.h"
 
 static void	patrol_enemy3(t_mystruct *mystruct, struct s_three_points *ABC,

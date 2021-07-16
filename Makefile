@@ -20,16 +20,21 @@ CFLAGS = -Wall -Wextra -Werror
 BFLAG = -D BONUS
 
 $(NAME): $(OBJ)
-# cd mlx && make
+	cd mlx_linux && $(MAKE) re
+	cp ./mlx_linux/libmlx.a .
+	mv libmlx.a libsolong.a
 	cd libft && $(MAKE) all
 	cp ./libft/libft.a .
-	mv libft.a libsolong.a
-	ar -rs libsolong.a $(OBJ)
-	$(CC) -lz -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME) $(OBJ) -Llibft -lft
+	ar -x libft.a
+	ar -rs libsolong.a *.o
+	rm -f libft.a
+	mv libsolong.a libr/
+	$(CC) -lz -L/usr/lib -Imlx_linux -lXext -lX11 -lm -o $(NAME) -Llibr -lsolong
 # -lz flag is for zlib, which mlx_png_file_to_image uses
+test: $(OBJ)
 %.o: %.c
-	$(CC) -g $(CFLAGS) -Imlx -c $< -o $@
-ft_utils.o: ft_utils.c ft_utils.h mlx/mlx.h libft/libft.h
+	$(CC) -g $(CFLAGS) -I/usr/include -Imlx_linux -O3 -c $< -o $@
+ft_utils.o: ft_utils.c ft_utils.h mlx_linux/mlx.h libft/libft.h
 	$(CC) -g $(CFLAGS) -Imlx -c ft_utils.c -o $@
 ft_get_next_line.o: gnl/ft_get_next_line.c gnl/ft_get_next_line.h
 	$(CC) -g $(CFLAGS) -c gnl/ft_get_next_line.c
@@ -37,7 +42,7 @@ ft_get_next_line_utils.o: gnl/ft_get_next_line_utils.c gnl/ft_get_next_line.h
 	$(CC) -g $(CFLAGS) -c gnl/ft_get_next_line_utils.c
 .PHONY: all clean fclean re bonus
 clean:
-	cd mlx && rm -f *.o a.out
+	cd mlx_linux && rm -f *.o a.out
 	rm -f *.o a.out
 	cd libft && rm -f *.o a.out 
 re:
@@ -47,7 +52,8 @@ all: $(NAME)
 fclean: clean
 	rm -f *.a
 	cd libft && rm -f *.a
-	cd mlx && rm -f *.a
+	cd mlx_linux && rm -f *.a
 bonus: clean
 bonus: CFLAGS += $(BFLAG)
+bonus: test
 bonus: all

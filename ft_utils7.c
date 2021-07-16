@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_utils.h"
-#include "mlx/mlx.h"
+#include "mlx_linux/mlx.h"
 
 int	pow_int(int base, int exp)
 {

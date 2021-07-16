@@ -12,10 +12,10 @@
 
 #ifndef FT_STRUCTS_H
 # define FT_STRUCTS_H
-# define SCREEN_WIDTH 1920
-# define SCREEN_HEIGHT 1080
-# define CELL_SIZE_W 50
-# define CELL_SIZE_H 50
+# define SCREEN_WIDTH 500
+# define SCREEN_HEIGHT 500
+# define CELL_SIZE_W 18
+# define CELL_SIZE_H 18
 # ifdef BONUS
 #  define IS_BONUS 1
 # else

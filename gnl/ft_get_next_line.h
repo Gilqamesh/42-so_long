@@ -14,7 +14,12 @@
 # define FT_GET_NEXT_LINE_H
 
 # include <stdlib.h>
+# include <limits.h>
+# ifndef OPEN_MAX
+#  define OPEN_MAX 4096
+# endif
 # define BUFFER_SIZE 100
+
 int		get_next_line(int fd, char **line);
 size_t	ft_strlen(const char *s);
 int		contains_newline(char *str, size_t n);

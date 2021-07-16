@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_utils.h"
-#include "mlx/mlx.h"
+#include "mlx_linux/mlx.h"
 #include "libft/libft.h"
 #include <stdio.h>
 

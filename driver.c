@@ -13,7 +13,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "mlx/mlx.h"
+#include "mlx_linux/mlx.h"
 #include "ft_utils.h"
 #include "ft_colors.h"
 #include "ft_hooks.h"

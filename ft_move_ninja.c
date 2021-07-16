@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "ft_move_ninja.h"
-#include "mlx/mlx.h"
+#include "mlx_linux/mlx.h"
 #include "ft_utils.h"
 #include "ft_hooks.h"
 

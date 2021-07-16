@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "ft_utils.h"
-#include "mlx/mlx.h"
+#include "mlx_linux/mlx.h"
 #include "ft_error.h"
 #include "gnl/ft_get_next_line.h"
 #include <fcntl.h>

@@ -13,25 +13,25 @@
 #include <stdlib.h>
 #include "ft_utils.h"
 #include "ft_structs.h"
-#include "mlx/mlx.h"
+#include "mlx_linux/mlx.h"
 
 static int	wasd_pressed_helper(int keycode, t_mystruct *mystruct)
 {
-	if (keycode == 13)
+	if (keycode == 119)
 	{
 		if (*mystruct->prev_y - 1 < 0 || *(*(*mystruct->map + *mystruct->prev_y
 					- 1) + *mystruct->prev_x) == '1')
 			return (0);
 		mystruct->cur_position->y--;
 	}
-	else if (keycode == 0)
+	else if (keycode == 97)
 	{
 		if (*mystruct->prev_x - 1 < 0 || *(*(*mystruct->map
 					+ *mystruct->prev_y) + *mystruct->prev_x - 1) == '1')
 			return (0);
 		mystruct->cur_position->x--;
 	}
-	else if (keycode == 1)
+	else if (keycode == 115)
 	{
 		if (*mystruct->prev_y + 1 > mystruct->map_height
 			|| *(*(*mystruct->map + *mystruct->prev_y + 1)
@@ -45,13 +45,13 @@ static int	wasd_pressed_helper(int keycode, t_mystruct *mystruct)
 
 int	wasd_pressed(int keycode, t_mystruct *mystruct)
 {
-	if (keycode == 13 || !keycode || keycode == 1 || keycode == 2)
+	if (keycode == 119 || keycode == 97 || keycode == 115 || keycode == 100)
 	{
 		*mystruct->prev_x = mystruct->cur_position->x;
 		*mystruct->prev_y = mystruct->cur_position->y;
-		if (keycode == 13 || !keycode || keycode == 1)
+		if (keycode == 119 || keycode == 97 || keycode == 115)
 			return (wasd_pressed_helper(keycode, mystruct));
-		else if (keycode == 2)
+		else if (keycode == 100)
 		{
 			if (*mystruct->prev_x + 1 > mystruct->map_width
 				|| *(*(*mystruct->map + *mystruct->prev_y) + *mystruct->prev_x
