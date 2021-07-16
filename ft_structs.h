@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 14:00:36 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/16 16:16:55 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/16 16:25:03 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,13 @@
 # define CELL_SIZE_H 50
 # ifdef BONUS
 #  define IS_BONUS 1
-#  else
+# else
 #  define IS_BONUS 0
 # endif
 # define IS_MOVING_UP (previous_position->y - 1 == current_position->y)
 # define IS_MOVING_LEFT (previous_position->x - 1 == current_position->x)
 # define IS_MOVING_DOWN (previous_position->y + 1 == current_position->y)
 # define IS_MOVING_RIGHT (previous_position->x + 1 == current_position->x)
-# define UP_CHAR (*(*(*mystruct->map + current_position->y - 1) + current_position->x))
-# define LEFT_CHAR (*(*(*mystruct->map + current_position->y) + current_position->x - 1))
-# define DOWN_CHAR (*(*(*mystruct->map + current_position->y + 1) + current_position->x))
-# define RIGHT_CHAR (*(*(*mystruct->map + current_position->y) + current_position->x + 1))
 
 typedef struct s_point
 {

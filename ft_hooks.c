@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 10:02:09 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/16 15:59:07 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/16 16:30:36 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,10 @@ int		move_ninja(int keycode, t_mystruct *mystruct)
 static void	get_next_position(t_mystruct *mystruct, t_point *current_position, t_point *previous_position)
 {
 	t_node	neighbour_chars[4] = {
-		{UP_CHAR, "up_char", 0},
-		{LEFT_CHAR, "left_char", 0},
-		{DOWN_CHAR, "down_char", 0},
-		{RIGHT_CHAR, "right_char", 0}
+		{*(*(*mystruct->map + current_position->y - 1) + current_position->x), "up_char", 0},
+		{*(*(*mystruct->map + current_position->y) + current_position->x - 1), "left_char", 0},
+		{*(*(*mystruct->map + current_position->y + 1) + current_position->x), "down_char", 0},
+		{*(*(*mystruct->map + current_position->y) + current_position->x + 1), "right_char", 0}
 	};
 	t_node	*cur_node;
 	int		i;
