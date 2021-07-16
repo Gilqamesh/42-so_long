@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 11:50:05 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/16 15:33:34 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/16 17:46:39 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,6 @@
 #include "ft_image_initialize.h"
 #include "ft_utils.h"
 #include "ft_structs.h"
-
-struct s_args1
-{
-	t_point	A;
-	t_point	B;
-	char	*filePath;
-	t_vars	*vars;
-	t_point	cell_size;
-};
 
 static void	extract_image(t_data *images, struct s_args1 args1)
 {

@@ -6,12 +6,12 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 15:45:12 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/16 16:22:36 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/16 17:35:29 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "ft_utils2.h"
+#include "ft_utils.h"
 #include "ft_structs.h"
 #include "mlx/mlx.h"
 
@@ -73,9 +73,12 @@ int	all_collected(char ***map, int width, int height)
 	x = -1;
 	y = -1;
 	while (++y < height)
+	{
 		while (++x < width)
 			if (*(*(*map + y) + x) == 'C')
 				return (0);
+		x = -1;
+	}
 	return (1);
 }
 
@@ -103,8 +106,11 @@ int	count_collectibles(t_mystruct *mystruct)
 	y = -1;
 	x = -1;
 	while (++y < mystruct->map_height)
+	{
 		while (++x < mystruct->map_width)
 			if (*(*(*mystruct->map + y) + x) == 'C')
 				counter++;
+		x = -1;
+	}
 	return (counter);
 }

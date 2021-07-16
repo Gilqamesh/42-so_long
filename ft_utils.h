@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 15:37:24 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/16 12:42:07 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/16 18:33:21 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,17 @@ void	number_put(int n, t_point coords, t_mystruct *mystruct,
 int		pow_int(int base, int exp);
 void	print_map(t_mystruct *mystruct);
 void	reset_map(t_mystruct *mystruct);
+int		wasd_pressed(int keycode, t_mystruct *mystruct);
+int		all_collected(char ***map, int width, int height);
+int		exit_clicked(t_mystruct *mystruct);
+int		count_collectibles(t_mystruct *mystruct);
+void	initialize_positions(t_mystruct *mystruct, t_point **positions,
+			int number_of_enemies);
+void	get_exit_coords(t_mystruct *mystruct, t_point *exit);
+void	initialize_vars(t_point **enemy_positions,
+			t_point **enemy_previous_positions, int *number_of_enemies,
+			t_mystruct *mystruct);
+void	get_next_position(t_mystruct *mystruct, t_point *current_position,
+			t_point *previous_position);
 
 #endif

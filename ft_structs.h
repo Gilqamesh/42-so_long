@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 14:00:36 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/16 16:25:03 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/16 17:53:56 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,6 @@
 # else
 #  define IS_BONUS 0
 # endif
-# define IS_MOVING_UP (previous_position->y - 1 == current_position->y)
-# define IS_MOVING_LEFT (previous_position->x - 1 == current_position->x)
-# define IS_MOVING_DOWN (previous_position->y + 1 == current_position->y)
-# define IS_MOVING_RIGHT (previous_position->x + 1 == current_position->x)
 
 typedef struct s_point
 {
@@ -76,5 +72,21 @@ typedef struct s_node
 	char			*name;
 	struct s_node	*next;
 }	t_node;
+
+struct s_args1
+{
+	t_point	A;
+	t_point	B;
+	char	*filePath;
+	t_vars	*vars;
+	t_point	cell_size;
+};
+
+struct s_three_points
+{
+	t_point	exit;
+	t_point	*enemy_positions;
+	t_point	*enemy_previous_positions;
+};
 
 #endif
