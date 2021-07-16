@@ -4,3 +4,5 @@ a.out
 *.a
 libft/*.o
 libft/*.a
+mlx/*.o
+*.a

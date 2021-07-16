@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 15:37:24 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/16 18:33:21 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/16 19:19:35 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,8 @@ void	initialize_vars(t_point **enemy_positions,
 			t_mystruct *mystruct);
 void	get_next_position(t_mystruct *mystruct, t_point *current_position,
 			t_point *previous_position);
+void	init_map_helper(t_mystruct *mystruct, char **line, int *fd);
+void	draw_map_helper(t_mystruct *mystruct, int cur_map_height,
+			int cur_character, int cur_cell);
 
 #endif
