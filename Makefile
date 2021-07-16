@@ -6,14 +6,15 @@
 #    By: edavid <edavid@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/07 16:17:01 by edavid            #+#    #+#              #
-#    Updated: 2021/07/16 13:21:15 by edavid           ###   ########.fr        #
+#    Updated: 2021/07/16 15:53:56 by edavid           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = a.out
 CC = gcc
 OBJ = driver.o ft_colors.o ft_utils.o ft_hooks.o ft_get_next_line.o \
-ft_get_next_line_utils.o ft_error.o ft_image_initialize.o
+ft_get_next_line_utils.o ft_error.o ft_image_initialize.o ft_utils2.o \
+ft_utils3.o
 CFLAGS = -Wall -Wextra -Werror
 BFLAG = -D BONUS
 

@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_hooks.h                                         :+:      :+:    :+:   */
+/*   ft_utils3.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/09 10:01:50 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/16 16:11:37 by edavid           ###   ########.fr       */
+/*   Created: 2021/07/16 15:54:48 by edavid            #+#    #+#             */
+/*   Updated: 2021/07/16 15:57:45 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_HOOKS_H
-# define FT_HOOKS_H
+#ifndef FT_UTILS3_H
+# define FT_UTILS3_H
 
 # include "ft_structs.h"
-int	move_ninja(int keycode, t_mystruct *mystruct);
-int	patrol_enemy(t_mystruct *mystruct);
+void	initialize_positions(t_mystruct *mystruct, t_point **positions, int number_of_enemies);
+void	get_exit_coords(t_mystruct *mystruct, t_point *exit);
+void	initialize_vars(t_point **enemy_positions, t_point **enemy_previous_positions,
+		int *number_of_enemies, t_point *exit, t_mystruct *mystruct);
 
 #endif

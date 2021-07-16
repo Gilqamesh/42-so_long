@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 16:16:58 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/16 15:02:04 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/16 16:04:22 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "ft_error.h"
 #include "errno.h"
 #include "ft_image_initialize.h"
+#include "ft_utils2.h"
 
 static void	init_struct(t_mystruct *mystruct)
 {

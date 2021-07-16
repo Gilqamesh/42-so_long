@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_hooks.h                                         :+:      :+:    :+:   */
+/*   ft_utils2.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/09 10:01:50 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/16 16:11:37 by edavid           ###   ########.fr       */
+/*   Created: 2021/07/16 15:45:15 by edavid            #+#    #+#             */
+/*   Updated: 2021/07/16 15:54:45 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_HOOKS_H
-# define FT_HOOKS_H
+#ifndef FT_UTILS2_H
+# define FT_UTILS2_H
 
-# include "ft_structs.h"
-int	move_ninja(int keycode, t_mystruct *mystruct);
-int	patrol_enemy(t_mystruct *mystruct);
+#include "ft_structs.h"
+int		wasd_pressed(int keycode, t_mystruct *mystruct);
+int		all_collected(char ***map, int width, int height);
+int		exit_clicked(t_mystruct *mystruct);
+int		count_collectibles(t_mystruct *mystruct);
 
 #endif
