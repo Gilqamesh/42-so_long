@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 15:39:04 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/15 19:32:56 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/16 13:30:42 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,21 +259,21 @@ void	draw_map(t_mystruct *mystruct)
 		{
 			img_offset.x = CELL_SIZE_W * cur_character;
 			img_offset.y = CELL_SIZE_H * cur_map_height;
-			mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (*mystruct->all_images->images + 4)->img, img_offset.x, img_offset.y);
+			mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (mystruct->all_images.images + 4)->img, img_offset.x, img_offset.y);
 			if (cur_cell == '1') // WALL
-				mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (*mystruct->all_images->images)->img, img_offset.x, img_offset.y);
+				mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (mystruct->all_images.images)->img, img_offset.x, img_offset.y);
 			else if (cur_cell == '0') // EMPTY SPACE
-				mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (*mystruct->all_images->images + 1)->img, img_offset.x, img_offset.y);
+				mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (mystruct->all_images.images + 1)->img, img_offset.x, img_offset.y);
 			else if (cur_cell == 'E') // MAP EXIT
-				mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (*mystruct->all_images->images + 2)->img, img_offset.x, img_offset.y);
+				mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (mystruct->all_images.images + 2)->img, img_offset.x, img_offset.y);
 			else if (cur_cell == 'P') // PLAYER
 			{
 				mystruct->cur_position->x = cur_character;
 				mystruct->cur_position->y = cur_map_height;
-				mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, mystruct->playerMovement->img, img_offset.x, img_offset.y);
+				mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (mystruct->all_images.playerMovement)->img, img_offset.x, img_offset.y);
 			}
 			else if (cur_cell == 'C') // COLLECTIBLE 
-				mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (*mystruct->all_images->images + 3)->img, img_offset.x, img_offset.y);
+				mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (mystruct->all_images.images + 3)->img, img_offset.x, img_offset.y);
 			cur_cell = *(*(*mystruct->map + cur_map_height) + ++cur_character);
 		}
 		cur_map_height++;
@@ -304,10 +304,10 @@ void	number_put(int n, t_point coords, t_mystruct *mystruct, int previous_n)
 	len = ft_strlen(previous_str);
 	i = -1;
 	while (++i < len)
-		mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (*mystruct->all_images->numberImages + 10)->img, coords.x + i * 55, coords.y);
+		mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (mystruct->all_images.numberImages + 10)->img, coords.x + i * 55, coords.y);
 	i = -1;
 	while (str[++i])
-		mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (*mystruct->all_images->numberImages + str[i] - '0')->img, coords.x + i * 55, coords.y);
+		mlx_put_image_to_window(mystruct->vars->mlx, mystruct->vars->win, (mystruct->all_images.numberImages + str[i] - '0')->img, coords.x + i * 55, coords.y);
 	free(str);
 	free(previous_str);
 }
@@ -323,23 +323,12 @@ int	pow_int(int base, int exp)
 	return (base * pow_int(base, exp - 1));
 }
 
-void	print_map(t_mystruct *mystruct)
-{
-	for (int y = 0; y < mystruct->map_height; y++)
-	{
-		for (int x = 0; x < mystruct->map_width; x++)
-			printf("%c", *(*(*mystruct->map + y) + x));
-		printf("\n");
-	}
-}
-
 void	reset_map(t_mystruct *mystruct)
 {
 	free_map(mystruct->map, mystruct->map_height);
 	initialize_map(mystruct);
 	draw_map(mystruct);
-	#ifdef BONUS
-	number_put(0, (t_point){600, 600}, mystruct, *mystruct->move_counter);
-	#endif
+	if (IS_BONUS)
+		number_put(0, (t_point){600, 600}, mystruct, *mystruct->move_counter);
 	*mystruct->move_counter = 0;
 }

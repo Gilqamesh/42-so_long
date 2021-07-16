@@ -6,14 +6,21 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 14:00:36 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/15 19:58:18 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/16 13:35:22 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_STRUCTS_H
 # define FT_STRUCTS_H
+# define SCREEN_WIDTH 1920
+# define SCREEN_HEIGHT 1080
 # define CELL_SIZE_W 50
 # define CELL_SIZE_H 50
+# ifdef BONUS
+#  define IS_BONUS 1
+#  else
+#  define IS_BONUS 0
+# endif
 
 typedef struct s_point
 {
@@ -39,15 +46,15 @@ typedef struct s_vars
 typedef struct s_images
 {
 	t_data	*img;
-	t_data	**images;
-	t_data	**numberImages;
-	t_data	**playerMovement;
+	t_data	*images;
+	t_data	*numberImages;
+	t_data	*playerMovement;
 }	t_images;
 
 typedef struct s_mystruct
 {
 	t_vars		*vars;
-	t_images	*all_images;
+	t_images	all_images;
 	t_point		*cur_position;
 	int			*prev_x;
 	int			*prev_y;
@@ -58,21 +65,6 @@ typedef struct s_mystruct
 	int			*move_counter;
 	int			*need_reset;
 }	t_mystruct;
-
-typedef struct s_rgba
-{
-	unsigned char	alpha;
-	unsigned char	red;
-	unsigned char	green;
-	unsigned char	blue;
-}	t_rgba;
-
-typedef struct s_hsl
-{
-	int		hue;
-	char	saturation;
-	char	lightness;	
-}	t_hsl;
 
 typedef struct s_node
 {

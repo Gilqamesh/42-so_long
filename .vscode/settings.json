@@ -1,6 +1,17 @@
 {
 	"files.associations": {
 		"ft_basic_shapes.h": "c",
-		"unistd.h": "c"
+		"unistd.h": "c",
+		"ft_structs.h": "c",
+		"ft_utils.h": "c",
+		"ft_image_initialize.h": "c",
+		"ft_error.h": "c",
+		"errno.h": "c",
+		"ft_hooks.h": "c",
+		"ft_colors.h": "c",
+		"stdio.h": "c",
+		"stdlib.h": "c",
+		"math.h": "c",
+		"mlx.h": "c"
 	}
 }

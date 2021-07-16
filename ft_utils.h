@@ -6,7 +6,7 @@
 /*   By: edavid <edavid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 15:37:24 by edavid            #+#    #+#             */
-/*   Updated: 2021/07/15 18:57:11 by edavid           ###   ########.fr       */
+/*   Updated: 2021/07/16 12:42:07 by edavid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define FT_UTILS_H
 
 # include "ft_structs.h"
-
+# include <stdlib.h>
 void	my_mlx_pixel_put(t_data *data, double x, double y, int color);
 int		round_to_nearest(double a);
 int		abs_int(int a);
